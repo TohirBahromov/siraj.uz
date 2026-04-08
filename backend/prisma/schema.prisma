@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum ProductPlacement {
+  SHOWCASE
+  GRID
+}
+
+model Product {
+  id              Int                  @id @default(autoincrement())
+  placement       ProductPlacement
+  badgeColor      String
+  titleColor      String
+  descColor       String
+  btn1Color       String
+  btn1BgColor     String
+  btn2Color       String
+  btn2BgColor     String
+  imgUrl          String
+  backgroundColor String
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  translations    ProductTranslation[]
+  orders          ProductOrder[]
+}
+
+model ProductOrder {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  name      String
+  phone     String
+  createdAt DateTime @default(now())
+
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductTranslation {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  locale    String
+  badge     String?
+  title     String
+  desc      String  @db.Text
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+}
+
+model HeroSlide {
+  id            Int                    @id @default(autoincrement())
+  videoSrc      String
+  eyebrowColor  String
+  headlineColor String
+  sublineColor  String
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+
+  translations  HeroSlideTranslation[]
+}
+
+model HeroSlideTranslation {
+  id          Int       @id @default(autoincrement())
+  heroSlideId Int
+  locale      String
+  eyebrow     String
+  headline    String    @db.Text
+  subline     String    @db.Text
+
+  heroSlide   HeroSlide @relation(fields: [heroSlideId], references: [id], onDelete: Cascade)
+
+  @@unique([heroSlideId, locale])
+}
+
+model ContactSubmission {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model StaffMember {
+  id           Int                      @id @default(autoincrement())
+  imageUrl     String
+  order        Int                      @default(0)
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  translations StaffMemberTranslation[]
+}
+
+model StaffMemberTranslation {
+  id            Int         @id @default(autoincrement())
+  staffMemberId Int
+  locale        String
+  name          String
+  position      String
+
+  staffMember   StaffMember @relation(fields: [staffMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([staffMemberId, locale])
+}
+
+model CompanyInfo {
+  id           Int      @id @default(1)
+  latitude     Decimal  @db.Decimal(10, 8)
+  longitude    Decimal  @db.Decimal(11, 8)
+  address      String
+  phoneNumber  String
+  email        String
+  startDay     Int      @default(1)
+  endDay       Int      @default(5)
+  startAt      String   @default("09:00")
+  endAt        String   @default("18:00")
+  updatedAt    DateTime @updatedAt
+}
+

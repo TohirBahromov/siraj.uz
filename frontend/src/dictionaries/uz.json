@@ -1,0 +1,217 @@
+{
+  "nav": {
+    "store": "Do'kon",
+    "phones": "Telefonlar",
+    "laptops": "Noutbuklar",
+    "tablets": "Planshetlar",
+    "wearables": "Aqlli soatlar",
+    "accessories": "Aksessuarlar",
+    "support": "Yordam",
+    "aboutUs": "Biz haqimizda",
+    "contactUs": "Biz bilan bog'lanish",
+    "ourLocation": "Bizning joylashuvimiz"
+  },
+  "admin": {
+    "sidebar": {
+      "products": "Mahsulotlar",
+      "newProduct": "Yangi mahsulot",
+      "heroSlides": "Hero slaydlar",
+      "newHeroSlide": "Yangi slayd",
+      "viewSite": "Saytga o'tish",
+      "company": "Kompaniya",
+      "messages": "Xabarlar",
+      "orders": "Buyurtmalar",
+      "staff": "Xodimlar",
+      "newStaffMember": "Yangi xodim",
+      "signOut": "Chiqish"
+    }
+  },
+  "hero": {
+    "prevSlide": "Oldingi slayd",
+    "nextSlide": "Keyingi slayd",
+    "pauseVideo": "Videoni to'xtatish",
+    "playVideo": "Videoni ijro etish",
+    "slides": [
+      {
+        "eyebrow": "Yangi · Siraj S1 Ultra",
+        "headline": "Uzoqroq ko'ring.\nTezroq fikrlang.",
+        "subline": "Inqilobiy kamera tizimi bizning eng kuchli chipimiz bilan birga. Kelajak shu yerda.",
+        "primaryCta": "S1 Ultra ni kashf eting",
+        "secondaryCta": "Hozir xarid qiling"
+      },
+      {
+        "eyebrow": "Yangi · Siraj Pro 16",
+        "headline": "Siz bilan birga\nfikrlaydigan kuch.",
+        "subline": "16 dyuymli aniq displey. Butun kun batareya. Murosaga yo'l qo'ymaydigan yaratuvchilar uchun noutbuk.",
+        "primaryCta": "Pro 16 ni kashf eting",
+        "secondaryCta": "Hozir xarid qiling"
+      },
+      {
+        "eyebrow": "Yangi · Siraj Watch X",
+        "headline": "Sog'lig'ingiz.\nBilagingizda.",
+        "subline": "Ilg'or sog'liq sensörlari, kun bo'yi kuzatuv va barchaning e'tiborini tortadigan dizayn. Hayot, go'zal o'lchanadi.",
+        "primaryCta": "Watch X ni kashf eting",
+        "secondaryCta": "Hozir xarid qiling"
+      }
+    ]
+  },
+  "showcase": {
+    "badge": "Yangi",
+    "learnMore": "Batafsil",
+    "buy": "Sotib olish",
+    "products": [
+      {
+        "name": "Siraj S1 Ultra",
+        "tagline": "Ajoyibdan ham yaxshiroq.",
+        "description": "200 megapikselli adaptiv kamera. Titan ramka. Siraj Nexus chipi. Eng qobiliyatli telefon.",
+        "price": "1 299 dollardan"
+      },
+      {
+        "name": "Siraj Pro 16",
+        "tagline": "Kelajak uchun yaratilgan.",
+        "description": "Nexus M3 chipi, mini-LED ProMotion displey, 96 GBgacha unified xotira. Bu haqiqiy pro.",
+        "price": "2 499 dollardan"
+      }
+    ]
+  },
+  "grid": {
+    "learnMore": "Batafsil",
+    "buy": "Sotib olish",
+    "products": [
+      {
+        "name": "Siraj Tab Air",
+        "tagline": "Yupqa. Kuchli. Ko'p qirrali.",
+        "description": "12.9 dyuymli Liquid OLED. Nexus chipi. Ixtiyoriy klaviatura va stilos.",
+        "price": "799 dollardan"
+      },
+      {
+        "name": "Siraj Watch X",
+        "tagline": "Sog'liq, yangi darajada.",
+        "description": "EKG, qon kislorodi, avariya aniqlash va 72 soatlik batareya.",
+        "price": "399 dollardan"
+      },
+      {
+        "name": "Siraj Buds Pro",
+        "tagline": "Hamma narsani eshiting. Qolganini bloklang.",
+        "description": "Adaptiv ANC, fazoviy audio va jami 36 soatlik ijro.",
+        "price": "249 dollardan"
+      },
+      {
+        "name": "Siraj Care+",
+        "tagline": "Himoya. Xotirjamlik.",
+        "description": "Tasodifiy shikastlanishdan himoya, ustuvor qo'llab-quvvatlash va bir kunda ta'mirlash.",
+        "price": "Oyiga 9,99 dollardan"
+      }
+    ]
+  },
+  "promoBar": {
+    "items": [
+      {
+        "text": "50 dollardan yuqori barcha buyurtmalarga bepul yetkazib berish.",
+        "cta": "Hozir xarid qiling"
+      },
+      {
+        "text": "Eski qurilmangizni topshiring va 600 dollargacha tejang.",
+        "cta": "Baholash"
+      },
+      {
+        "text": "0% yillik foiz stavkasi bilan oylik to'lov.",
+        "cta": "Batafsil"
+      }
+    ]
+  },
+  "newsletter": {
+    "headline": "Hamisha birinchi bo'ling.",
+    "subline": "Yangi mahsulotlar, eksklyuziv takliflar va hamma narsani o'zgartiradigan texnologiyalar haqida birinchi bo'lib xabardor bo'ling.",
+    "placeholder": "Elektron pochtangizni kiriting",
+    "cta": "Obuna bo'lish",
+    "disclaimer": "Spam yo'q. Istalgan vaqtda obunadan chiqishingiz mumkin.",
+    "success": "Siz ro'yxatdasiz. Kelajakka xush kelibsiz."
+  },
+  "footer": {
+    "columns": {
+      "shop": "Xarid qilish",
+      "services": "Xizmatlar",
+      "company": "Kompaniya",
+      "support": "Yordam"
+    },
+    "links": {
+      "allProducts": "Barcha mahsulotlar",
+      "phones": "Telefonlar",
+      "laptops": "Noutbuklar",
+      "tablets": "Planshetlar",
+      "wearables": "Aqlli soatlar",
+      "accessories": "Aksessuarlar",
+      "care": "Siraj Care+",
+      "tradeIn": "Almashtirish",
+      "financing": "Moliyalashtirish",
+      "business": "Biznes",
+      "about": "Biz haqimizda",
+      "careers": "Karyera",
+      "press": "Matbuot",
+      "sustainability": "Barqarorlik",
+      "contact": "Biz bilan bog'lanish",
+      "findStore": "Do'konni topish",
+      "repair": "Ta'mirlash",
+      "returns": "Qaytarish"
+    },
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Foydalanish shartlari",
+    "cookies": "Cookie siyosati"
+  },
+  "contactUs": {
+    "badge": "Bog'laning",
+    "headline": "Sizdan xabar olishdan xursandmiz.",
+    "subline": "Savolingiz bormi? Mahsulotlarimiz haqida ko'proq bilmoqchimisiz? Jamoamiz yordam berishga tayyor.",
+    "nameLabel": "To'liq ism",
+    "namePlaceholder": "Husanov Jasur",
+    "emailLabel": "Elektron pochta",
+    "emailPlaceholder": "jasur@example.com",
+    "phoneLabel": "Telefon raqami",
+    "phonePlaceholder": "+998 90 000-00-00",
+    "messageLabel": "Xabar",
+    "messagePlaceholder": "Qanday yordam kerak?",
+    "cta": "Xabar jo'natish",
+    "success": "Rahmat! Tez orada bog'lanamiz.",
+    "infoTitle": "Aloqa ma'lumotlari",
+    "address": "Toshkent sh., Yunusobod tumani, 123-uy",
+    "phone": "+998 71 123-45-67",
+    "email": "hello@siraj.com",
+    "hours": "Du – Ju, 9:00 – 18:00"
+  },
+  "ourLocation": {
+    "badge": "Bizga tashrif buyuring",
+    "headline": "Bizni xaritada toping.",
+    "subline": "Bosh do'konimizga keling va Sirajni jonli his eting."
+  },
+  "aboutUs": {
+    "heroTitle": "Siraj haqida",
+    "heroSubline": "Biz texnologiya har bir insonga kuch berishiga ishonamiz. Tashkil etilgandan beri biz odamlar qanday bog'lanishi, yaratishi va yashashini o'zgartiradigan innovatsion mahsulotlar yaratishga bag'ishlanganmiz.",
+    "missionBadge": "Bizning maqsad",
+    "missionTitle": "Yorqinroq kelajak uchun texnologiya.",
+    "missionText": "Sirajda biz mumkin bo'lgan chegaralarni kengaytiruvchi mahsulotlarni loyihalaymiz va yaratamiz. Mukammallikka sodiqligimiz bizni ilg'or texnologiyani go'zal dizayn bilan birlashtiruvchi, hamma uchun ochiq bo'lgan texnologiyaga olib keladi.",
+    "valuesBadge": "Qadriyatlarimiz",
+    "valuesTitle": "Bizni oldinga siljitadigan narsalar.",
+    "values": [
+      {
+        "title": "Innovatsiya",
+        "description": "Biz doimo chegaralarni kengaytiramiz, kutishlarni qayta belgilaydigan mahsulotlar yaratish uchun yangi texnologiyalarni o'rganamiz."
+      },
+      {
+        "title": "Sifat",
+        "description": "Har bir detalь muhim. Materiallardan dasturiy ta'minotgacha, biz yaratgan hamma narsada murosa qilmaydigan standartlarni saqlaymiz."
+      },
+      {
+        "title": "Barqarorlik",
+        "description": "Biz mas'uliyatli manba, qayta ishlanadigan qadoqlash va energiya tejaydigan dizayn orqali atrof-muhit izimizni kamaytirishga intilamiz."
+      },
+      {
+        "title": "Hamjamiyat",
+        "description": "Biz shunchaki mahsulot emas — biz tasavvurimizni bo'lishadigan ijodkorlar, mutafakkirlar va orzumandarning global hamjamiyatini qurmoqdamiz."
+      }
+    ],
+    "staffBadge": "Bizning jamoa",
+    "staffTitle": "Siraj ortidagi odamlar bilan tanishing.",
+    "staffSubline": "Rahbariyat jamoamiz sevimli mahsulotlaringizni yaratish uchun texnologiya, dizayn va biznes bo'yicha o'nlab yillik tajribani birlashtiradi."
+  }
+}

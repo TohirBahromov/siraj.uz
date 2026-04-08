@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "store": "Store",
+    "phones": "Phones",
+    "laptops": "Laptops",
+    "tablets": "Tablets",
+    "wearables": "Wearables",
+    "accessories": "Accessories",
+    "support": "Support",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "ourLocation": "Our Location"
+  },
+  "admin": {
+    "sidebar": {
+      "products": "Products",
+      "newProduct": "New product",
+      "heroSlides": "Hero slides",
+      "newHeroSlide": "New hero slide",
+      "viewSite": "View site",
+      "company": "Company",
+      "messages": "Messages",
+      "orders": "Orders",
+      "staff": "Staff Members",
+      "newStaffMember": "New staff member",
+      "signOut": "Sign out"
+    }
+  },
+  "hero": {
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "pauseVideo": "Pause video",
+    "playVideo": "Play video",
+    "slides": [
+      {
+        "eyebrow": "New · Siraj S1 Ultra",
+        "headline": "See further.\nThink faster.",
+        "subline": "A revolutionary camera system meets the most powerful chip we've ever built. The future is here.",
+        "primaryCta": "Discover S1 Ultra",
+        "secondaryCta": "Shop now"
+      },
+      {
+        "eyebrow": "New · Siraj Pro 16",
+        "headline": "Power that\nthinks with you.",
+        "subline": "16-inch precision display. All-day battery. The laptop built for creators who refuse to compromise.",
+        "primaryCta": "Discover Pro 16",
+        "secondaryCta": "Shop now"
+      },
+      {
+        "eyebrow": "New · Siraj Watch X",
+        "headline": "Your health.\nOn your wrist.",
+        "subline": "Advanced health sensors, all-day tracking, and a design that turns heads. Life, measured beautifully.",
+        "primaryCta": "Discover Watch X",
+        "secondaryCta": "Shop now"
+      }
+    ]
+  },
+  "showcase": {
+    "badge": "New",
+    "learnMore": "Learn more",
+    "buy": "Buy",
+    "products": [
+      {
+        "name": "Siraj S1 Ultra",
+        "tagline": "Beyond brilliant.",
+        "description": "200MP adaptive camera. Titanium frame. Siraj Nexus chip. The most capable phone ever made.",
+        "price": "From $1,299"
+      },
+      {
+        "name": "Siraj Pro 16",
+        "tagline": "Built for what's next.",
+        "description": "Nexus M3 chip, mini-LED ProMotion display, up to 96GB unified memory. This is pro, redefined.",
+        "price": "From $2,499"
+      }
+    ]
+  },
+  "grid": {
+    "learnMore": "Learn more",
+    "buy": "Buy",
+    "products": [
+      {
+        "name": "Siraj Tab Air",
+        "tagline": "Thin. Powerful. Versatile.",
+        "description": "12.9-inch Liquid OLED. Nexus chip. Optional keyboard & stylus.",
+        "price": "From $799"
+      },
+      {
+        "name": "Siraj Watch X",
+        "tagline": "Health, elevated.",
+        "description": "ECG, blood oxygen, crash detection, and 72-hour battery life.",
+        "price": "From $399"
+      },
+      {
+        "name": "Siraj Buds Pro",
+        "tagline": "Hear everything. Block the rest.",
+        "description": "Adaptive ANC, spatial audio, and 36 hours total playback.",
+        "price": "From $249"
+      },
+      {
+        "name": "Siraj Care+",
+        "tagline": "Protection. Peace of mind.",
+        "description": "Accidental damage coverage, priority support, and same-day repair for all your Siraj devices.",
+        "price": "From $9.99/mo"
+      }
+    ]
+  },
+  "promoBar": {
+    "items": [
+      { "text": "Free delivery on all orders over $50.", "cta": "Shop now" },
+      {
+        "text": "Trade in your old device and save up to $600.",
+        "cta": "Get an estimate"
+      },
+      { "text": "Pay monthly with 0% APR financing.", "cta": "Learn more" }
+    ]
+  },
+  "newsletter": {
+    "headline": "Stay ahead of the curve.",
+    "subline": "Be the first to hear about new products, exclusive offers, and technology that changes everything.",
+    "placeholder": "Enter your email",
+    "cta": "Subscribe",
+    "disclaimer": "No spam. Unsubscribe at any time.",
+    "success": "You're on the list. Welcome to the future."
+  },
+  "footer": {
+    "columns": {
+      "shop": "Shop",
+      "services": "Services",
+      "company": "Company",
+      "support": "Support"
+    },
+    "links": {
+      "allProducts": "All Products",
+      "phones": "Phones",
+      "laptops": "Laptops",
+      "tablets": "Tablets",
+      "wearables": "Wearables",
+      "accessories": "Accessories",
+      "care": "Siraj Care+",
+      "tradeIn": "Trade In",
+      "financing": "Financing",
+      "business": "Business",
+      "about": "About",
+      "careers": "Careers",
+      "press": "Press",
+      "sustainability": "Sustainability",
+      "contact": "Contact Us",
+      "findStore": "Find a Store",
+      "repair": "Repair",
+      "returns": "Returns"
+    },
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "cookies": "Cookie Policy"
+  },
+  "contactUs": {
+    "badge": "Get In Touch",
+    "headline": "We'd love to hear from you.",
+    "subline": "Have a question? Want to know more about our products? Our team is here to help.",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "John Doe",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "john@example.com",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "+1 (555) 000-0000",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "cta": "Send Message",
+    "success": "Thank you! We'll be in touch shortly.",
+    "infoTitle": "Contact Information",
+    "address": "123 Tech Avenue, Silicon Valley, CA 94025",
+    "phone": "+1 (555) 123-4567",
+    "email": "hello@siraj.com",
+    "hours": "Mon – Fri, 9 AM – 6 PM"
+  },
+  "ourLocation": {
+    "badge": "Visit Us",
+    "headline": "Find us on the map.",
+    "subline": "Stop by our flagship store and experience Siraj in person."
+  },
+  "aboutUs": {
+    "heroTitle": "About Siraj",
+    "heroSubline": "We believe technology should empower everyone. Since our founding, we've been dedicated to creating innovative products that transform how people connect, create, and live.",
+    "missionBadge": "Our Mission",
+    "missionTitle": "Technology for a brighter future.",
+    "missionText": "At Siraj, we design and build products that push the boundaries of what's possible. Our commitment to excellence drives us to combine cutting-edge technology with beautiful design, making advanced tech accessible to everyone.",
+    "valuesBadge": "Our Values",
+    "valuesTitle": "What drives us forward.",
+    "values": [
+      {
+        "title": "Innovation",
+        "description": "We constantly push boundaries, exploring new technologies and approaches to create products that redefine expectations."
+      },
+      {
+        "title": "Quality",
+        "description": "Every detail matters. From materials to software, we maintain uncompromising standards in everything we create."
+      },
+      {
+        "title": "Sustainability",
+        "description": "We're committed to reducing our environmental footprint through responsible sourcing, recyclable packaging, and energy-efficient design."
+      },
+      {
+        "title": "Community",
+        "description": "We build more than products — we foster a global community of creators, thinkers, and dreamers who share our vision."
+      }
+    ],
+    "staffBadge": "Our Team",
+    "staffTitle": "Meet the people behind Siraj.",
+    "staffSubline": "Our leadership team brings decades of combined experience in technology, design, and business to deliver products you love."
+  }
+}
