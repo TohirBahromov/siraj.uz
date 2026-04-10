@@ -21,27 +21,17 @@ export const NAV_ITEMS: NavItem[] = [
   { key: "ourLocation", href: "/#our-location" },
 ];
 
-export type FooterColumnKey = "shop" | "services" | "company" | "support";
+export type FooterColumnKey = "catalogue" | "company" | "support";
 
 export type FooterLinkKey =
-  | "allProducts"
-  | "phones"
-  | "laptops"
-  | "tablets"
-  | "wearables"
-  | "accessories"
-  | "care"
-  | "tradeIn"
-  | "financing"
-  | "business"
-  | "about"
-  | "careers"
-  | "press"
-  | "sustainability"
+  | "categories"
+  | "aboutUs"
+  | "contactUs"
+  | "ourLocation"
   | "contact"
-  | "findStore"
   | "repair"
-  | "returns";
+  | "returns"
+  | "faq";
 
 export type FooterColumn = {
   headingKey: FooterColumnKey;
@@ -50,41 +40,26 @@ export type FooterColumn = {
 
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
-    headingKey: "shop",
+    headingKey: "catalogue",
     links: [
-      { key: "allProducts", href: "/store" },
-      { key: "phones", href: "/phones" },
-      { key: "laptops", href: "/laptops" },
-      { key: "tablets", href: "/tablets" },
-      { key: "wearables", href: "/wearables" },
-      { key: "accessories", href: "/accessories" },
-    ],
-  },
-  {
-    headingKey: "services",
-    links: [
-      { key: "care", href: "/care" },
-      { key: "tradeIn", href: "/trade-in" },
-      { key: "financing", href: "/financing" },
-      { key: "business", href: "/business" },
+      { key: "categories", href: "/categories" },
     ],
   },
   {
     headingKey: "company",
     links: [
-      { key: "about", href: "/about" },
-      { key: "careers", href: "/careers" },
-      { key: "press", href: "/press" },
-      { key: "sustainability", href: "/sustainability" },
+      { key: "aboutUs", href: "/about-us" },
+      { key: "contactUs", href: "/#contact-us" },
+      { key: "ourLocation", href: "/#our-location" },
     ],
   },
   {
     headingKey: "support",
     links: [
-      { key: "contact", href: "/contact" },
-      { key: "findStore", href: "/stores" },
-      { key: "repair", href: "/repair" },
-      { key: "returns", href: "/returns" },
+      { key: "contact", href: "/#contact-us" },
+      { key: "repair", href: "/#contact-us" },
+      { key: "returns", href: "/#contact-us" },
+      { key: "faq", href: "/#contact-us" },
     ],
   },
 ];

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const slugify_1 = require("../common/utils/slugify");
 const PUBLIC_LOCALES = ['en', 'uz', 'ru'];
 function assertLocale(value) {
     if (!PUBLIC_LOCALES.includes(value)) {
@@ -37,7 +38,10 @@ let ProductsService = class ProductsService {
         const products = await this.prisma.product.findMany({
             where: { placement },
             orderBy: { createdAt: 'desc' },
-            include: { translations: true },
+            include: {
+                translations: true,
+                categories: { include: { translations: true } },
+            },
         });
         return products.map((p) => {
             const t = pickTranslation(p.translations, locale);
@@ -46,6 +50,7 @@ let ProductsService = class ProductsService {
             }
             return {
                 id: p.id,
+                slug: p.slug,
                 badge: t.badge ?? null,
                 badgeColor: p.badgeColor,
                 title: t.title,
@@ -59,19 +64,63 @@ let ProductsService = class ProductsService {
                 imgUrl: p.imgUrl,
                 backgroundColor: p.backgroundColor,
                 placement: p.placement,
+                categories: p.categories.map((c) => {
+                    const ct = pickTranslation(c.translations, locale);
+                    return { id: c.id, slug: ct?.slug ?? c.slug, name: ct?.name ?? '' };
+                }),
             };
         });
+    }
+    async findPublicBySlugId(slugId, locale) {
+        assertLocale(locale);
+        const id = (0, slugify_1.parseSlugId)(slugId);
+        if (!id)
+            throw new common_1.NotFoundException('Product not found');
+        const product = await this.prisma.product.findUnique({
+            where: { id },
+            include: {
+                translations: true,
+                categories: { include: { translations: true } },
+            },
+        });
+        if (!product)
+            throw new common_1.NotFoundException('Product not found');
+        const t = pickTranslation(product.translations, locale);
+        if (!t)
+            throw new common_1.NotFoundException('Product not found');
+        const categories = product.categories.map((c) => {
+            const ct = pickTranslation(c.translations, locale);
+            return { id: c.id, slug: ct?.slug ?? c.slug, name: ct?.name ?? '' };
+        });
+        return {
+            id: product.id,
+            slug: product.slug,
+            badge: t.badge ?? null,
+            badgeColor: product.badgeColor,
+            title: t.title,
+            titleColor: product.titleColor,
+            desc: t.desc,
+            descColor: product.descColor,
+            btn1Color: product.btn1Color,
+            btn1BgColor: product.btn1BgColor,
+            btn2Color: product.btn2Color,
+            btn2BgColor: product.btn2BgColor,
+            imgUrl: product.imgUrl,
+            backgroundColor: product.backgroundColor,
+            placement: product.placement,
+            categories,
+        };
     }
     async findAllAdmin() {
         return this.prisma.product.findMany({
             orderBy: [{ placement: 'asc' }, { createdAt: 'desc' }],
-            include: { translations: true },
+            include: { translations: true, categories: true },
         });
     }
     async findOneAdmin(id) {
         const product = await this.prisma.product.findUnique({
             where: { id },
-            include: { translations: true },
+            include: { translations: true, categories: true },
         });
         if (!product)
             throw new common_1.NotFoundException('Product not found');
@@ -79,9 +128,16 @@ let ProductsService = class ProductsService {
     }
     async create(dto) {
         this.validateTranslations(dto.translations);
+        const primaryTitle = dto.translations.find((t) => t.locale === 'uz')?.title ??
+            dto.translations[0].title;
+        const baseSlug = (0, slugify_1.slugify)(primaryTitle);
         const product = await this.prisma.product.create({
             data: {
+                slug: `${baseSlug}-tmp-${Date.now()}`,
                 placement: dto.placement,
+                ...(dto.categoryIds?.length
+                    ? { categories: { connect: dto.categoryIds.map((id) => ({ id })) } }
+                    : {}),
                 badgeColor: dto.badgeColor,
                 titleColor: dto.titleColor,
                 descColor: dto.descColor,
@@ -100,6 +156,11 @@ let ProductsService = class ProductsService {
                     })),
                 },
             },
+        });
+        const finalSlug = (0, slugify_1.buildSlugId)(baseSlug, product.id);
+        await this.prisma.product.update({
+            where: { id: product.id },
+            data: { slug: finalSlug },
         });
         return this.findOneAdmin(product.id);
     }
@@ -128,6 +189,9 @@ let ProductsService = class ProductsService {
                 data[key] = v;
             }
         }
+        if (dto.categoryIds !== undefined) {
+            data.categories = { set: dto.categoryIds.map((id) => ({ id })) };
+        }
         if (translations?.length) {
             data.translations = {
                 deleteMany: {},
@@ -148,6 +212,35 @@ let ProductsService = class ProductsService {
         await this.findOneAdmin(id);
         await this.prisma.product.delete({ where: { id } });
         return { ok: true };
+    }
+    async getContent(productId, locale) {
+        await this.findOneAdmin(productId);
+        const row = await this.prisma.productContent.findUnique({
+            where: { productId_locale: { productId, locale } },
+        });
+        return { productId, locale, blocks: (row?.blocks ?? []) };
+    }
+    async upsertContent(productId, locale, blocks) {
+        await this.findOneAdmin(productId);
+        await this.prisma.productContent.upsert({
+            where: { productId_locale: { productId, locale } },
+            update: { blocks: blocks },
+            create: { productId, locale, blocks: blocks },
+        });
+        return { ok: true };
+    }
+    async getPublicContent(slugId, locale) {
+        assertLocale(locale);
+        const id = (0, slugify_1.parseSlugId)(slugId);
+        if (!id)
+            throw new common_1.NotFoundException('Product not found');
+        const rows = await this.prisma.productContent.findMany({
+            where: { productId: id },
+        });
+        const pick = rows.find((r) => r.locale === locale) ??
+            rows.find((r) => r.locale === 'en') ??
+            rows[0];
+        return { blocks: (pick?.blocks ?? []) };
     }
     validateTranslations(translations) {
         const locales = translations.map((t) => t.locale);

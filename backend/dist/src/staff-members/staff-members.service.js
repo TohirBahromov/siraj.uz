@@ -44,11 +44,25 @@ let StaffMembersService = class StaffMembersService {
             };
         });
     }
-    async findAllAdmin() {
-        return this.prisma.staffMember.findMany({
-            orderBy: { order: 'asc' },
-            include: { translations: true },
-        });
+    async findAllAdmin(page = 1, limit = 15) {
+        const skip = (page - 1) * limit;
+        const [items, total] = await Promise.all([
+            this.prisma.staffMember.findMany({
+                skip,
+                take: limit,
+                orderBy: { order: 'asc' },
+                include: { translations: true },
+            }),
+            this.prisma.staffMember.count(),
+        ]);
+        return {
+            items,
+            meta: {
+                total,
+                page,
+                lastPage: Math.max(1, Math.ceil(total / limit)),
+            },
+        };
     }
     async findOneAdmin(id) {
         const member = await this.prisma.staffMember.findUnique({

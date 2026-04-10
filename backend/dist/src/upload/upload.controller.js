@@ -45,7 +45,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadController = exports.editFileName = void 0;
+exports.UploadController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
@@ -53,24 +53,24 @@ const path_1 = require("path");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const uploadPath = path.resolve(process.cwd(), '..', 'uploads');
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
+const UPLOADS_ROOT = path.resolve(process.cwd(), '..', 'uploads');
+const ALLOWED_FOLDERS = ['staff', 'categories', 'products'];
+if (!fs.existsSync(UPLOADS_ROOT)) {
+    fs.mkdirSync(UPLOADS_ROOT, { recursive: true });
 }
-const editFileName = (req, file, callback) => {
+const editFileName = (_req, file, callback) => {
     const name = file.originalname.split('.')[0];
-    const fileExtName = (0, path_1.extname)(file.originalname);
-    const randomName = Array(4)
+    const ext = (0, path_1.extname)(file.originalname);
+    const rand = Array(4)
         .fill(null)
         .map(() => Math.round(Math.random() * 16).toString(16))
         .join('');
-    callback(null, `${name}-${randomName}${fileExtName}`);
+    callback(null, `${name}-${rand}${ext}`);
 };
-exports.editFileName = editFileName;
 let UploadController = class UploadController {
-    uploadFile(file) {
-        const url = `/uploads/${file.filename}`;
-        return { url };
+    uploadFile(file, folder) {
+        const urlPath = folder ? `/uploads/${folder}/${file.filename}` : `/uploads/${file.filename}`;
+        return { url: urlPath };
     }
 };
 exports.UploadController = UploadController;
@@ -78,17 +78,26 @@ __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
-            destination: uploadPath,
-            filename: exports.editFileName,
+            destination: (req, _file, callback) => {
+                const folder = req.query?.folder;
+                if (folder && !ALLOWED_FOLDERS.includes(folder)) {
+                    return callback(new common_1.BadRequestException(`Invalid upload folder: ${folder}`), '');
+                }
+                const dest = folder
+                    ? (0, path_1.join)(UPLOADS_ROOT, folder)
+                    : UPLOADS_ROOT;
+                fs.mkdirSync(dest, { recursive: true });
+                callback(null, dest);
+            },
+            filename: editFileName,
         }),
     })),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
-        validators: [
-            new common_1.MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 }),
-        ],
+        validators: [new common_1.MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 })],
     }))),
+    __param(1, (0, common_1.Query)('folder')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], UploadController.prototype, "uploadFile", null);
 exports.UploadController = UploadController = __decorate([

@@ -9,6 +9,7 @@ import {
   Globe,
   Images,
   Laptop,
+  LayoutGrid,
   LogOut,
   Mail,
   PackageCheck,
@@ -16,6 +17,7 @@ import {
   ShoppingCart,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 
 interface Props {
   base: string;
@@ -53,11 +55,26 @@ const Sidebar = ({ base }: Props) => {
           href={`${base}/products`}
           className="text-xl font-semibold tracking-tight flex items-center gap-2"
         >
-          <Laptop className="shrink-0" />
+          <div className="w-8 h-8 relative shrink-0">
+            <Image
+              src="/siraj-logo.png"
+              alt="Siraj"
+              fill
+              className="object-contain"
+            />
+          </div>
           {isOpen && <span className="min-w-max">Siraj Admin</span>}
         </Link>
       </div>
       <nav className="flex-1 flex flex-col gap-2 px-4">
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Kontent</h2>}
+        <Link
+          href={`${base}/categories`}
+          className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/categories`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
+        >
+          <LayoutGrid size={18} />
+          {isOpen && d.categories}
+        </Link>
         <Link
           href={`${base}/products`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/products`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
@@ -72,6 +89,7 @@ const Sidebar = ({ base }: Props) => {
           <Images size={18} />
           {isOpen && d.heroSlides}
         </Link>
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Kompaniya</h2>}
         <Link
           href={`${base}/company`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/company`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
@@ -79,6 +97,14 @@ const Sidebar = ({ base }: Props) => {
           <Building2 size={18} />
           {isOpen && d.company}
         </Link>
+        <Link
+          href={`${base}/staff`}
+          className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/staff`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
+        >
+          <Users size={18} />
+          {isOpen && d.staff}
+        </Link>
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Sotuv</h2>}
         <Link
           href={`${base}/enquiries`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/enquiries`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
@@ -92,13 +118,6 @@ const Sidebar = ({ base }: Props) => {
         >
           <PackageCheck size={18} />
           {isOpen && d.orders}
-        </Link>
-        <Link
-          href={`${base}/staff`}
-          className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/staff`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
-        >
-          <Users size={18} />
-          {isOpen && d.staff}
         </Link>
       </nav>
       <div className="mt-8 px-4 pb-6 md:pb-0 border-t border-black/10 pt-6 flex flex-col gap-3">

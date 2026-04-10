@@ -1,32 +1,40 @@
 import {
   Controller,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
   ParseFilePipe,
   MaxFileSizeValidator,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const uploadPath = path.resolve(process.cwd(), '..', 'uploads');
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
+const UPLOADS_ROOT = path.resolve(process.cwd(), '..', 'uploads');
+const ALLOWED_FOLDERS = ['staff', 'categories', 'products'] as const;
+
+if (!fs.existsSync(UPLOADS_ROOT)) {
+  fs.mkdirSync(UPLOADS_ROOT, { recursive: true });
 }
 
-export const editFileName = (req: any, file: Express.Multer.File, callback: any) => {
+const editFileName = (
+  _req: unknown,
+  file: Express.Multer.File,
+  callback: (error: Error | null, filename: string) => void,
+) => {
   const name = file.originalname.split('.')[0];
-  const fileExtName = extname(file.originalname);
-  const randomName = Array(4)
+  const ext = extname(file.originalname);
+  const rand = Array(4)
     .fill(null)
     .map(() => Math.round(Math.random() * 16).toString(16))
     .join('');
-  callback(null, `${name}-${randomName}${fileExtName}`);
+  callback(null, `${name}-${rand}${ext}`);
 };
 
 @Controller('admin/upload')
@@ -36,7 +44,20 @@ export class UploadController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: uploadPath,
+        destination: (req: any, _file, callback) => {
+          const folder = req.query?.folder as string | undefined;
+          if (folder && !ALLOWED_FOLDERS.includes(folder as any)) {
+            return callback(
+              new BadRequestException(`Invalid upload folder: ${folder}`),
+              '',
+            );
+          }
+          const dest = folder
+            ? join(UPLOADS_ROOT, folder)
+            : UPLOADS_ROOT;
+          fs.mkdirSync(dest, { recursive: true });
+          callback(null, dest);
+        },
         filename: editFileName,
       }),
     }),
@@ -44,14 +65,13 @@ export class UploadController {
   uploadFile(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 }),
-        ],
+        validators: [new MaxFileSizeValidator({ maxSize: 50 * 1024 * 1024 })],
       }),
     )
     file: Express.Multer.File,
+    @Query('folder') folder?: string,
   ) {
-    const url = `/uploads/${file.filename}`;
-    return { url };
+    const urlPath = folder ? `/uploads/${folder}/${file.filename}` : `/uploads/${file.filename}`;
+    return { url: urlPath };
   }
 }

@@ -293,11 +293,8 @@ export default function CompanyInfoForm({
                   value={form.startDay}
                   onChange={(e) => handleStartDayChange(Number(e.target.value))}
                 >
-                  {/* All days except Sunday can be a start */}
                   {WEEKDAY_KEYS.slice(0, -1).map((d, i) => (
-                    <option key={d} value={i}>
-                      {LABELS[d]}
-                    </option>
+                    <option key={i} value={i}>{LABELS[d]}</option>
                   ))}
                 </select>
               </Field>
@@ -314,9 +311,7 @@ export default function CompanyInfoForm({
                   {WEEKDAY_KEYS.map((d, i) => ({ d, i }))
                     .filter(({ i }) => i > form.startDay)
                     .map(({ d, i }) => (
-                      <option key={d} value={i}>
-                        {LABELS[d]}
-                      </option>
+                      <option key={i} value={i}>{LABELS[d]}</option>
                     ))}
                 </select>
               </Field>

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const create_product_dto_1 = require("./dto/create-product.dto");
 const update_product_dto_1 = require("./dto/update-product.dto");
+const upsert_product_content_dto_1 = require("./dto/upsert-product-content.dto");
 const products_service_1 = require("./products.service");
 let AdminProductsController = class AdminProductsController {
     productsService;
@@ -37,6 +38,12 @@ let AdminProductsController = class AdminProductsController {
     }
     remove(id) {
         return this.productsService.remove(id);
+    }
+    getContent(id, locale) {
+        return this.productsService.getContent(id, locale);
+    }
+    upsertContent(id, locale, dto) {
+        return this.productsService.upsertContent(id, locale, dto.blocks);
     }
 };
 exports.AdminProductsController = AdminProductsController;
@@ -75,6 +82,23 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AdminProductsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Get)(':id/content/:locale'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Param)('locale')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", void 0)
+], AdminProductsController.prototype, "getContent", null);
+__decorate([
+    (0, common_1.Put)(':id/content/:locale'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Param)('locale')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String, upsert_product_content_dto_1.UpsertProductContentDto]),
+    __metadata("design:returntype", void 0)
+], AdminProductsController.prototype, "upsertContent", null);
 exports.AdminProductsController = AdminProductsController = __decorate([
     (0, common_1.Controller)('admin/products'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

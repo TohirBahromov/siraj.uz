@@ -1,12 +1,11 @@
 import { Type } from 'class-transformer';
 import {
-  IsBoolean,
+  IsArray,
   IsEnum,
   IsInt,
   IsOptional,
   IsString,
   MinLength,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { ProductPlacement } from '@prisma/client';
@@ -15,6 +14,11 @@ import { ProductTranslationDto } from './product-translation.dto';
 export class CreateProductDto {
   @IsEnum(ProductPlacement)
   placement!: ProductPlacement;
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  categoryIds?: number[];
 
   @IsString()
   @MinLength(1)

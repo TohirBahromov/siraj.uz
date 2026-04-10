@@ -1,4 +1,4 @@
-import { Controller, Get, ParseEnumPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseEnumPipe, Query } from '@nestjs/common';
 import { ProductPlacement } from '@prisma/client';
 import { ProductsService } from './products.service';
 
@@ -12,6 +12,22 @@ export class ProductsController {
     placement: ProductPlacement,
     @Query('locale') locale?: string,
   ) {
-    return this.productsService.findPublic(placement, locale?.trim() || 'en');
+    return this.productsService.findPublic(placement, locale?.trim() || 'uz');
+  }
+
+  @Get(':slugId')
+  findOne(
+    @Param('slugId') slugId: string,
+    @Query('locale') locale?: string,
+  ) {
+    return this.productsService.findPublicBySlugId(slugId, locale?.trim() || 'uz');
+  }
+
+  @Get(':slugId/content')
+  getContent(
+    @Param('slugId') slugId: string,
+    @Query('locale') locale?: string,
+  ) {
+    return this.productsService.getPublicContent(slugId, locale?.trim() || 'uz');
   }
 }

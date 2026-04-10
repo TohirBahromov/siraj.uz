@@ -16,6 +16,7 @@ const client_1 = require("@prisma/client");
 const product_translation_dto_1 = require("./product-translation.dto");
 class CreateProductDto {
     placement;
+    categoryIds;
     badgeColor;
     titleColor;
     descColor;
@@ -32,6 +33,12 @@ __decorate([
     (0, class_validator_1.IsEnum)(client_1.ProductPlacement),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "placement", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsInt)({ each: true }),
+    __metadata("design:type", Array)
+], CreateProductDto.prototype, "categoryIds", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(1),

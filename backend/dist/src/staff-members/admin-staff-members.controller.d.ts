@@ -4,21 +4,28 @@ import { StaffMembersService } from './staff-members.service';
 export declare class AdminStaffMembersController {
     private readonly staffMembersService;
     constructor(staffMembersService: StaffMembersService);
-    findAll(): Promise<({
-        translations: {
-            locale: string;
+    findAll(page?: string, limit?: string): Promise<{
+        items: ({
+            translations: {
+                locale: string;
+                id: number;
+                name: string;
+                position: string;
+                staffMemberId: number;
+            }[];
+        } & {
             id: number;
-            name: string;
-            position: string;
-            staffMemberId: number;
-        }[];
-    } & {
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        imageUrl: string;
-        order: number;
-    })[]>;
+            createdAt: Date;
+            updatedAt: Date;
+            imageUrl: string;
+            order: number;
+        })[];
+        meta: {
+            total: number;
+            page: number;
+            lastPage: number;
+        };
+    }>;
     findOne(id: number): Promise<{
         translations: {
             locale: string;

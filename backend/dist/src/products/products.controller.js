@@ -22,7 +22,13 @@ let ProductsController = class ProductsController {
         this.productsService = productsService;
     }
     findPublic(placement, locale) {
-        return this.productsService.findPublic(placement, locale?.trim() || 'en');
+        return this.productsService.findPublic(placement, locale?.trim() || 'uz');
+    }
+    findOne(slugId, locale) {
+        return this.productsService.findPublicBySlugId(slugId, locale?.trim() || 'uz');
+    }
+    getContent(slugId, locale) {
+        return this.productsService.getPublicContent(slugId, locale?.trim() || 'uz');
     }
 };
 exports.ProductsController = ProductsController;
@@ -34,6 +40,22 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "findPublic", null);
+__decorate([
+    (0, common_1.Get)(':slugId'),
+    __param(0, (0, common_1.Param)('slugId')),
+    __param(1, (0, common_1.Query)('locale')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Get)(':slugId/content'),
+    __param(0, (0, common_1.Param)('slugId')),
+    __param(1, (0, common_1.Query)('locale')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "getContent", null);
 exports.ProductsController = ProductsController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [products_service_1.ProductsService])

@@ -1,12 +1,14 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
 import type { AdminProduct, HomeProduct } from "@/types/product";
+import type { AdminCategory } from "@/types/category";
 import ProductGridItemAdmin from "../templates/ProductGridItemAdmin";
 import ProductShowcaseItemAdmin from "../templates/ProductShowcaseItemAdmin";
+import { Combobox } from "@/components/ui/Combobox";
 
 const LOCALES = [
   { id: "en", label: "English" },
@@ -33,6 +35,7 @@ function fromAdminProduct(p: AdminProduct): {
   imgUrl: string;
   backgroundColor: string;
   badge: string;
+  categoryIds: number[];
   translations: Record<string, TrFields>;
 } {
   const translations = emptyTranslations();
@@ -53,6 +56,7 @@ function fromAdminProduct(p: AdminProduct): {
     imgUrl: p.imgUrl,
     backgroundColor: p.backgroundColor,
     badge,
+    categoryIds: p.categories.map((c) => c.id),
     translations,
   };
 }
@@ -90,9 +94,18 @@ export function ProductForm({
       imgUrl: "",
       backgroundColor: "#ffffff",
       badge: "",
+      categoryIds: [] as number[],
       translations: emptyTranslations(),
     };
   }, [initial]);
+
+  // Categories for multi-select
+  const [allCategories, setAllCategories] = useState<AdminCategory[]>([]);
+  useEffect(() => {
+    adminFetch("/admin/categories")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: AdminCategory[]) => setAllCategories(data));
+  }, []);
 
   const [activeTab, setActiveTab] = useState<"en" | "uz" | "ru">("en");
   const [placement, setPlacement] = useState<"SHOWCASE" | "GRID">(
@@ -114,6 +127,7 @@ export function ProductForm({
   const [imgUrl, setImgUrl] = useState(initialState.imgUrl);
   const [localPreviewObj, setLocalPreviewObj] = useState<string | null>(null);
   const [translations, setTranslations] = useState(initialState.translations);
+  const [categoryIds, setCategoryIds] = useState<number[]>(initialState.categoryIds);
 
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -135,7 +149,7 @@ export function ProductForm({
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await adminFetch("/admin/upload", {
+      const res = await adminFetch("/admin/upload?folder=products", {
         method: "POST",
         body: formData,
       });
@@ -155,6 +169,7 @@ export function ProductForm({
     setLoading(true);
     const payload = {
       placement,
+      categoryIds,
       badgeColor,
       titleColor,
       descColor,
@@ -178,6 +193,7 @@ export function ProductForm({
         body: JSON.stringify(payload),
       });
       const data = (await res.json().catch(() => null)) as {
+        id?: number;
         message?: string | string[];
       } | null;
       if (!res.ok) {
@@ -191,7 +207,12 @@ export function ProductForm({
         );
         return;
       }
-      router.push(adminListPath);
+      if (mode === "create" && data?.id) {
+        // Go straight to the content editor after creating a product
+        router.push(`${adminListPath.replace(/\/products$/, "")}/products/${data.id}/content`);
+      } else {
+        router.push(adminListPath);
+      }
       router.refresh();
     } finally {
       setLoading(false);
@@ -280,11 +301,60 @@ export function ProductForm({
                 rows={3}
                 value={translations[activeTab].desc}
                 onChange={(e) => setTr(activeTab, "desc", e.target.value)}
-                className="rounded-xl border border-black/15 px-3 py-2 resize-y min-h-[80px]"
+                className="rounded-xl border border-black/15 px-3 py-2 resize-y min-h-20"
               />
             </label>
           </div>
         </div>
+
+        {/* CATEGORIES — leaf only (no children) */}
+        {allCategories.length > 0 && (
+          <div className="rounded-2xl bg-white border border-black/10 p-6 space-y-3">
+            <p className="text-sm font-medium">Categories</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {allCategories.filter((cat) => !cat.children?.length).map((cat) => {
+                const label =
+                  cat.translations.find((t) => t.locale === "en")?.name ??
+                  cat.translations[0]?.name ??
+                  `#${cat.id}`;
+                const checked = categoryIds.includes(cat.id);
+                return (
+                  <label
+                    key={cat.id}
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border text-sm cursor-pointer transition-colors select-none ${
+                      checked
+                        ? "border-black bg-black text-white"
+                        : "border-black/10 text-black/60 hover:border-black/25 hover:text-black"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="hidden"
+                      checked={checked}
+                      onChange={() =>
+                        setCategoryIds((prev) =>
+                          checked
+                            ? prev.filter((id) => id !== cat.id)
+                            : [...prev, cat.id],
+                        )
+                      }
+                    />
+                    <span
+                      className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center text-[10px] ${
+                        checked
+                          ? "border-white bg-white text-black"
+                          : "border-black/20"
+                      }`}
+                    >
+                      {checked && "✓"}
+                    </span>
+                    {label}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {error && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
@@ -301,14 +371,16 @@ export function ProductForm({
                 — hover to change image · click pipette icons to change colors
               </span>
             </span>
-            <select
+            <Combobox
+              options={[
+                { value: "SHOWCASE", label: "Showcase" },
+                { value: "GRID", label: "Grid" },
+              ]}
               value={placement}
-              onChange={(e) => setPlacement(e.target.value as any)}
-              className="rounded-xl border border-black/15 px-4 py-2 bg-white text-sm"
-            >
-              <option value="SHOWCASE">Showcase</option>
-              <option value="GRID">Grid</option>
-            </select>
+              onChange={(v) => setPlacement(v as "SHOWCASE" | "GRID")}
+              searchable={false}
+              className="w-36"
+            />
           </div>
 
           <div className="max-w-full overflow-hidden">

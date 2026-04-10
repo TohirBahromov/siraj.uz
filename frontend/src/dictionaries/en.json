@@ -1,5 +1,6 @@
 {
   "nav": {
+    "catalogue": "Catalogue",
     "store": "Store",
     "phones": "Phones",
     "laptops": "Laptops",
@@ -13,6 +14,7 @@
   },
   "admin": {
     "sidebar": {
+      "categories": "Categories",
       "products": "Products",
       "newProduct": "New product",
       "heroSlides": "Hero slides",
@@ -123,32 +125,23 @@
     "success": "You're on the list. Welcome to the future."
   },
   "footer": {
+    "tagline": "Innovative technology for a brighter tomorrow.",
     "columns": {
-      "shop": "Shop",
-      "services": "Services",
+      "catalogue": "Catalogue",
       "company": "Company",
       "support": "Support"
     },
     "links": {
-      "allProducts": "All Products",
-      "phones": "Phones",
-      "laptops": "Laptops",
-      "tablets": "Tablets",
-      "wearables": "Wearables",
-      "accessories": "Accessories",
-      "care": "Siraj Care+",
-      "tradeIn": "Trade In",
-      "financing": "Financing",
-      "business": "Business",
-      "about": "About",
-      "careers": "Careers",
-      "press": "Press",
-      "sustainability": "Sustainability",
-      "contact": "Contact Us",
-      "findStore": "Find a Store",
-      "repair": "Repair",
-      "returns": "Returns"
+      "categories": "All Categories",
+      "aboutUs": "About Us",
+      "contactUs": "Contact Us",
+      "ourLocation": "Our Location",
+      "contact": "Get in Touch",
+      "repair": "Repair & Service",
+      "returns": "Returns",
+      "faq": "FAQ"
     },
+    "social": "Follow us",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "cookies": "Cookie Policy"

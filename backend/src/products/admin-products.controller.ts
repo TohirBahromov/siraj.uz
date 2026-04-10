@@ -7,11 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { UpsertProductContentDto } from './dto/upsert-product-content.dto';
 import { ProductsService } from './products.service';
 
 @Controller('admin/products')
@@ -42,5 +44,22 @@ export class AdminProductsController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
+  }
+
+  @Get(':id/content/:locale')
+  getContent(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('locale') locale: string,
+  ) {
+    return this.productsService.getContent(id, locale);
+  }
+
+  @Put(':id/content/:locale')
+  upsertContent(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('locale') locale: string,
+    @Body() dto: UpsertProductContentDto,
+  ) {
+    return this.productsService.upsertContent(id, locale, dto.blocks as any);
   }
 }

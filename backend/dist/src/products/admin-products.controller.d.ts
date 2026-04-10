@@ -1,5 +1,6 @@
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { UpsertProductContentDto } from './dto/upsert-product-content.dto';
 import { ProductsService } from './products.service';
 export declare class AdminProductsController {
     private readonly productsService;
@@ -13,6 +14,15 @@ export declare class AdminProductsController {
             id: number;
             productId: number;
         }[];
+        categories: {
+            imgUrl: string;
+            id: number;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            parentId: number | null;
+            level: number;
+        }[];
     } & {
         placement: import("@prisma/client").$Enums.ProductPlacement;
         badgeColor: string;
@@ -25,6 +35,7 @@ export declare class AdminProductsController {
         imgUrl: string;
         backgroundColor: string;
         id: number;
+        slug: string | null;
         createdAt: Date;
         updatedAt: Date;
     })[]>;
@@ -37,6 +48,15 @@ export declare class AdminProductsController {
             id: number;
             productId: number;
         }[];
+        categories: {
+            imgUrl: string;
+            id: number;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            parentId: number | null;
+            level: number;
+        }[];
     } & {
         placement: import("@prisma/client").$Enums.ProductPlacement;
         badgeColor: string;
@@ -49,6 +69,7 @@ export declare class AdminProductsController {
         imgUrl: string;
         backgroundColor: string;
         id: number;
+        slug: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -61,29 +82,14 @@ export declare class AdminProductsController {
             id: number;
             productId: number;
         }[];
-    } & {
-        placement: import("@prisma/client").$Enums.ProductPlacement;
-        badgeColor: string;
-        titleColor: string;
-        descColor: string;
-        btn1Color: string;
-        btn1BgColor: string;
-        btn2Color: string;
-        btn2BgColor: string;
-        imgUrl: string;
-        backgroundColor: string;
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    update(id: number, dto: UpdateProductDto): Promise<{
-        translations: {
-            locale: string;
-            badge: string | null;
-            title: string;
-            desc: string;
+        categories: {
+            imgUrl: string;
             id: number;
-            productId: number;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            parentId: number | null;
+            level: number;
         }[];
     } & {
         placement: import("@prisma/client").$Enums.ProductPlacement;
@@ -97,10 +103,53 @@ export declare class AdminProductsController {
         imgUrl: string;
         backgroundColor: string;
         id: number;
+        slug: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    update(id: number, dto: UpdateProductDto): Promise<{
+        translations: {
+            locale: string;
+            badge: string | null;
+            title: string;
+            desc: string;
+            id: number;
+            productId: number;
+        }[];
+        categories: {
+            imgUrl: string;
+            id: number;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            parentId: number | null;
+            level: number;
+        }[];
+    } & {
+        placement: import("@prisma/client").$Enums.ProductPlacement;
+        badgeColor: string;
+        titleColor: string;
+        descColor: string;
+        btn1Color: string;
+        btn1BgColor: string;
+        btn2Color: string;
+        btn2BgColor: string;
+        imgUrl: string;
+        backgroundColor: string;
+        id: number;
+        slug: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
     remove(id: number): Promise<{
+        ok: boolean;
+    }>;
+    getContent(id: number, locale: string): Promise<{
+        productId: number;
+        locale: string;
+        blocks: import("../common/types/content-block").ContentBlock[];
+    }>;
+    upsertContent(id: number, locale: string, dto: UpsertProductContentDto): Promise<{
         ok: boolean;
     }>;
 }

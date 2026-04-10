@@ -1,5 +1,6 @@
 {
   "nav": {
+    "catalogue": "Каталог",
     "store": "Магазин",
     "phones": "Телефоны",
     "laptops": "Ноутбуки",
@@ -13,6 +14,7 @@
   },
   "admin": {
     "sidebar": {
+      "categories": "Категории",
       "products": "Продукты",
       "newProduct": "Новый продукт",
       "heroSlides": "Hero слайды",
@@ -126,32 +128,23 @@
     "success": "Вы в списке. Добро пожаловать в будущее."
   },
   "footer": {
+    "tagline": "Инновационные технологии для светлого будущего.",
     "columns": {
-      "shop": "Покупки",
-      "services": "Услуги",
+      "catalogue": "Каталог",
       "company": "Компания",
       "support": "Поддержка"
     },
     "links": {
-      "allProducts": "Все продукты",
-      "phones": "Телефоны",
-      "laptops": "Ноутбуки",
-      "tablets": "Планшеты",
-      "wearables": "Носимые устройства",
-      "accessories": "Аксессуары",
-      "care": "Siraj Care+",
-      "tradeIn": "Обмен",
-      "financing": "Рассрочка",
-      "business": "Для бизнеса",
-      "about": "О компании",
-      "careers": "Карьера",
-      "press": "Пресса",
-      "sustainability": "Устойчивое развитие",
-      "contact": "Связаться с нами",
-      "findStore": "Найти магазин",
-      "repair": "Ремонт",
-      "returns": "Возврат"
+      "categories": "Все категории",
+      "aboutUs": "О нас",
+      "contactUs": "Связаться с нами",
+      "ourLocation": "Наше расположение",
+      "contact": "Написать нам",
+      "repair": "Ремонт и сервис",
+      "returns": "Возврат",
+      "faq": "Частые вопросы"
     },
+    "social": "Следите за нами",
     "privacy": "Политика конфиденциальности",
     "terms": "Условия использования",
     "cookies": "Политика cookies"

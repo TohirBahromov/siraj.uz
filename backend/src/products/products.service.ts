@@ -5,6 +5,8 @@ import {
 } from '@nestjs/common';
 import { ProductPlacement } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { slugify, buildSlugId, parseSlugId } from '../common/utils/slugify';
+import type { ContentBlock } from '../common/types/content-block';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -19,10 +21,10 @@ function assertLocale(value: string): asserts value is PublicLocale {
   }
 }
 
-function pickTranslation(
-  translations: { locale: string; badge: string | null; title: string; desc: string }[],
+function pickTranslation<T extends { locale: string }>(
+  translations: T[],
   locale: PublicLocale,
-) {
+): T | undefined {
   const direct = translations.find((t) => t.locale === locale);
   if (direct) return direct;
   const fallback = translations.find((t) => t.locale === 'en');
@@ -39,7 +41,10 @@ export class ProductsService {
     const products = await this.prisma.product.findMany({
       where: { placement },
       orderBy: { createdAt: 'desc' },
-      include: { translations: true },
+      include: {
+        translations: true,
+        categories: { include: { translations: true } },
+      },
     });
     return products.map((p) => {
       const t = pickTranslation(p.translations, locale);
@@ -50,6 +55,7 @@ export class ProductsService {
       }
       return {
         id: p.id,
+        slug: p.slug,
         badge: t.badge ?? null,
         badgeColor: p.badgeColor,
         title: t.title,
@@ -63,21 +69,67 @@ export class ProductsService {
         imgUrl: p.imgUrl,
         backgroundColor: p.backgroundColor,
         placement: p.placement,
+        categories: p.categories.map((c) => {
+          const ct = pickTranslation(c.translations, locale);
+          return { id: c.id, slug: ct?.slug ?? c.slug, name: ct?.name ?? '' };
+        }),
       };
     });
+  }
+
+  async findPublicBySlugId(slugId: string, locale: string) {
+    assertLocale(locale);
+    const id = parseSlugId(slugId);
+    if (!id) throw new NotFoundException('Product not found');
+
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+        categories: { include: { translations: true } },
+      },
+    });
+    if (!product) throw new NotFoundException('Product not found');
+
+    const t = pickTranslation(product.translations, locale);
+    if (!t) throw new NotFoundException('Product not found');
+
+    const categories = product.categories.map((c) => {
+      const ct = pickTranslation(c.translations, locale);
+      return { id: c.id, slug: ct?.slug ?? c.slug, name: ct?.name ?? '' };
+    });
+
+    return {
+      id: product.id,
+      slug: product.slug,
+      badge: t.badge ?? null,
+      badgeColor: product.badgeColor,
+      title: t.title,
+      titleColor: product.titleColor,
+      desc: t.desc,
+      descColor: product.descColor,
+      btn1Color: product.btn1Color,
+      btn1BgColor: product.btn1BgColor,
+      btn2Color: product.btn2Color,
+      btn2BgColor: product.btn2BgColor,
+      imgUrl: product.imgUrl,
+      backgroundColor: product.backgroundColor,
+      placement: product.placement,
+      categories,
+    };
   }
 
   async findAllAdmin() {
     return this.prisma.product.findMany({
       orderBy: [{ placement: 'asc' }, { createdAt: 'desc' }],
-      include: { translations: true },
+      include: { translations: true, categories: true },
     });
   }
 
   async findOneAdmin(id: number) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      include: { translations: true },
+      include: { translations: true, categories: true },
     });
     if (!product) throw new NotFoundException('Product not found');
     return product;
@@ -85,9 +137,21 @@ export class ProductsService {
 
   async create(dto: CreateProductDto) {
     this.validateTranslations(dto.translations);
+
+    // Generate a temporary slug; we'll update it with the id after creation
+    const primaryTitle =
+      dto.translations.find((t) => t.locale === 'uz')?.title ??
+      dto.translations[0].title;
+    const baseSlug = slugify(primaryTitle);
+
+    // Use a placeholder slug first, then update to include the id
     const product = await this.prisma.product.create({
       data: {
+        slug: `${baseSlug}-tmp-${Date.now()}`,
         placement: dto.placement,
+        ...(dto.categoryIds?.length
+          ? { categories: { connect: dto.categoryIds.map((id) => ({ id })) } }
+          : {}),
         badgeColor: dto.badgeColor,
         titleColor: dto.titleColor,
         descColor: dto.descColor,
@@ -107,6 +171,14 @@ export class ProductsService {
         },
       },
     });
+
+    // Now update with the canonical slug-id
+    const finalSlug = buildSlugId(baseSlug, product.id);
+    await this.prisma.product.update({
+      where: { id: product.id },
+      data: { slug: finalSlug },
+    });
+
     return this.findOneAdmin(product.id);
   }
 
@@ -138,6 +210,10 @@ export class ProductsService {
       }
     }
 
+    if (dto.categoryIds !== undefined) {
+      data.categories = { set: dto.categoryIds.map((id) => ({ id })) };
+    }
+
     if (translations?.length) {
       data.translations = {
         deleteMany: {},
@@ -161,6 +237,41 @@ export class ProductsService {
     await this.findOneAdmin(id);
     await this.prisma.product.delete({ where: { id } });
     return { ok: true };
+  }
+
+  async getContent(productId: number, locale: string) {
+    await this.findOneAdmin(productId);
+    const row = await this.prisma.productContent.findUnique({
+      where: { productId_locale: { productId, locale } },
+    });
+    return { productId, locale, blocks: (row?.blocks ?? []) as ContentBlock[] };
+  }
+
+  async upsertContent(productId: number, locale: string, blocks: ContentBlock[]) {
+    await this.findOneAdmin(productId);
+    await this.prisma.productContent.upsert({
+      where: { productId_locale: { productId, locale } },
+      update: { blocks: blocks as object[] },
+      create: { productId, locale, blocks: blocks as object[] },
+    });
+    return { ok: true };
+  }
+
+  async getPublicContent(slugId: string, locale: string) {
+    assertLocale(locale);
+    const id = parseSlugId(slugId);
+    if (!id) throw new NotFoundException('Product not found');
+
+    // Try requested locale, fall back to 'en', then any available
+    const rows = await this.prisma.productContent.findMany({
+      where: { productId: id },
+    });
+    const pick =
+      rows.find((r) => r.locale === locale) ??
+      rows.find((r) => r.locale === 'en') ??
+      rows[0];
+
+    return { blocks: (pick?.blocks ?? []) as ContentBlock[] };
   }
 
   private validateTranslations(translations: { locale: string }[]): void {

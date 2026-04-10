@@ -61,14 +61,6 @@ export class StaffMembersService {
       }),
       this.prisma.staffMember.count(),
     ]);
-    console.log({
-      items,
-      meta: {
-        total,
-        page,
-        lastPage: Math.max(1, Math.ceil(total / limit)),
-      },
-    });
     return {
       items,
       meta: {

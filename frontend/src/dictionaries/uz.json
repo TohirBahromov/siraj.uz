@@ -1,5 +1,6 @@
 {
   "nav": {
+    "catalogue": "Katalog",
     "store": "Do'kon",
     "phones": "Telefonlar",
     "laptops": "Noutbuklar",
@@ -13,6 +14,7 @@
   },
   "admin": {
     "sidebar": {
+      "categories": "Kategoriyalar",
       "products": "Mahsulotlar",
       "newProduct": "Yangi mahsulot",
       "heroSlides": "Hero slaydlar",
@@ -129,32 +131,23 @@
     "success": "Siz ro'yxatdasiz. Kelajakka xush kelibsiz."
   },
   "footer": {
+    "tagline": "Yorqinroq ertangi kun uchun innovatsion texnologiya.",
     "columns": {
-      "shop": "Xarid qilish",
-      "services": "Xizmatlar",
+      "catalogue": "Katalog",
       "company": "Kompaniya",
       "support": "Yordam"
     },
     "links": {
-      "allProducts": "Barcha mahsulotlar",
-      "phones": "Telefonlar",
-      "laptops": "Noutbuklar",
-      "tablets": "Planshetlar",
-      "wearables": "Aqlli soatlar",
-      "accessories": "Aksessuarlar",
-      "care": "Siraj Care+",
-      "tradeIn": "Almashtirish",
-      "financing": "Moliyalashtirish",
-      "business": "Biznes",
-      "about": "Biz haqimizda",
-      "careers": "Karyera",
-      "press": "Matbuot",
-      "sustainability": "Barqarorlik",
-      "contact": "Biz bilan bog'lanish",
-      "findStore": "Do'konni topish",
-      "repair": "Ta'mirlash",
-      "returns": "Qaytarish"
+      "categories": "Barcha kategoriyalar",
+      "aboutUs": "Biz haqimizda",
+      "contactUs": "Biz bilan bog'lanish",
+      "ourLocation": "Bizning joylashuvimiz",
+      "contact": "Murojaat qilish",
+      "repair": "Ta'mirlash va xizmat",
+      "returns": "Qaytarish",
+      "faq": "Ko'p so'raladigan savollar"
     },
+    "social": "Bizni kuzating",
     "privacy": "Maxfiylik siyosati",
     "terms": "Foydalanish shartlari",
     "cookies": "Cookie siyosati"

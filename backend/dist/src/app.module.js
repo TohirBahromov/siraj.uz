@@ -20,6 +20,7 @@ const contact_module_1 = require("./contact/contact.module");
 const company_module_1 = require("./company-info/company.module");
 const product_orders_module_1 = require("./product-orders/product-orders.module");
 const staff_members_module_1 = require("./staff-members/staff-members.module");
+const categories_module_1 = require("./categories/categories.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,6 +41,7 @@ exports.AppModule = AppModule = __decorate([
             company_module_1.CompanyModule,
             product_orders_module_1.ProductOrdersModule,
             staff_members_module_1.StaffMembersModule,
+            categories_module_1.CategoriesModule,
         ],
     })
 ], AppModule);

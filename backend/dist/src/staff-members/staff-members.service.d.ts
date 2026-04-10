@@ -10,21 +10,28 @@ export declare class StaffMembersService {
         name: string;
         position: string;
     }[]>;
-    findAllAdmin(): Promise<({
-        translations: {
-            locale: string;
+    findAllAdmin(page?: number, limit?: number): Promise<{
+        items: ({
+            translations: {
+                locale: string;
+                id: number;
+                name: string;
+                position: string;
+                staffMemberId: number;
+            }[];
+        } & {
             id: number;
-            name: string;
-            position: string;
-            staffMemberId: number;
-        }[];
-    } & {
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        imageUrl: string;
-        order: number;
-    })[]>;
+            createdAt: Date;
+            updatedAt: Date;
+            imageUrl: string;
+            order: number;
+        })[];
+        meta: {
+            total: number;
+            page: number;
+            lastPage: number;
+        };
+    }>;
     findOneAdmin(id: number): Promise<{
         translations: {
             locale: string;

@@ -16,7 +16,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   if (!hasLocale(lang)) notFound();
 
   const locale = lang as Locale;
-  const [showcaseProducts, gridProducts, heroSlides, contact, map] =
+  const [showcaseProductsRaw, gridProductsRaw, heroSlides, contact, map] =
     await Promise.all([
       fetchHomeProducts("SHOWCASE", locale),
       fetchHomeProducts("GRID", locale),
@@ -24,6 +24,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       getContact(),
       getMap(),
     ]);
+
+  const showcaseProducts = showcaseProductsRaw.slice(0, 3);
+  const gridProducts = gridProductsRaw.slice(0, 6);
 
   return (
     <>

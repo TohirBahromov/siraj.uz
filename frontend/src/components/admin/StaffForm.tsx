@@ -92,7 +92,7 @@ export function StaffForm({
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await adminFetch("/admin/upload", {
+      const res = await adminFetch("/admin/upload?folder=staff", {
         method: "POST",
         body: formData,
       });

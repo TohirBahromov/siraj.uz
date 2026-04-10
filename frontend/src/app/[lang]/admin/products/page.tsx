@@ -7,7 +7,7 @@ import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
 import type { AdminProduct } from "@/types/product";
 import Image from "next/image";
-import { Edit, Trash } from "lucide-react";
+import { Edit, FileText, Trash } from "lucide-react";
 
 export default function AdminProductsPage() {
   const params = useParams<{ lang: string }>();
@@ -133,6 +133,13 @@ export default function AdminProductsPage() {
                   {/* Actions */}
                   <td className="px-4 py-3 text-right space-x-2 h-full justify-end">
                     <div className="flex items-center justify-end gap-2 h-full">
+                      <Link
+                        href={`${base}/products/${p.id}/content`}
+                        className="text-emerald-600 hover:underline p-2 bg-white rounded-sm"
+                        title="Edit content"
+                      >
+                        <FileText size={18} />
+                      </Link>
                       <Link
                         href={`${base}/products/${p.id}/edit`}
                         className="text-indigo-600 hover:underline p-2 bg-white rounded-sm"

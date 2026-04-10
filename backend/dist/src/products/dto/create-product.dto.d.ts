@@ -2,6 +2,7 @@ import { ProductPlacement } from '@prisma/client';
 import { ProductTranslationDto } from './product-translation.dto';
 export declare class CreateProductDto {
     placement: ProductPlacement;
+    categoryIds?: number[];
     badgeColor: string;
     titleColor: string;
     descColor: string;

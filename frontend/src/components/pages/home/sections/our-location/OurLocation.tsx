@@ -2,7 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useDict } from "@/i18n/context";
-import { MAP_DEFAULT_CENTER } from "@/constants";
+import { LANG_MAP, MAP_DEFAULT_CENTER } from "@/constants";
+import { Container } from "@/components/ui/Container";
+import { useParams } from "next/navigation";
+import { Locale } from "@/i18n/config";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -21,6 +24,7 @@ interface Props {
 }
 
 export function OurLocation({ lat, lng }: Props) {
+  const { lang } = useParams<{ lang: Locale }>();
   const dict = useDict();
   const d = dict.ourLocation;
 
@@ -31,11 +35,11 @@ export function OurLocation({ lat, lng }: Props) {
   const markerParam = `pt=${currentLng},${currentLat},pm2rdm`;
   const centerParam = `ll=${currentLng},${currentLat}`;
 
-  const mapUrl = `https://yandex.com/map-widget/v1/?${centerParam}&z=16&${markerParam}`;
+  const mapUrl = `https://yandex.com/map-widget/v1/?${centerParam}&z=16&${markerParam}&lang=${LANG_MAP[lang]}`;
 
   return (
     <section id="our-location" className="py-28 bg-white">
-      <div className="mx-4">
+      <Container>
         {/* Section header */}
         <motion.div className="text-center mb-12" {...fadeUp()}>
           <span className="inline-block mb-4 rounded-full bg-indigo-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-indigo-600">
@@ -51,8 +55,8 @@ export function OurLocation({ lat, lng }: Props) {
 
         {/* Map */}
         <motion.div
-          className="overflow-hidden shadow-2xl shadow-black/10 border border-black/6"
-          style={{ height: 480 }}
+          className="overflow-hidden shadow-2xl shadow-black/10 border border-black/6 rounded-2xl"
+          style={{ height: 550 }}
           {...fadeUp(0.15)}
         >
           <iframe
@@ -66,7 +70,7 @@ export function OurLocation({ lat, lng }: Props) {
             className="w-full h-full border-0"
           />
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 }
