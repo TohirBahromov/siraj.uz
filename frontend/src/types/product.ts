@@ -55,6 +55,7 @@ export type HomeProduct = {
   imgUrl: string;
   backgroundColor: string;
   placement: "SHOWCASE" | "GRID";
+  hasContent: boolean;
   categories: { id: number; slug: string; name: string }[];
 };
 

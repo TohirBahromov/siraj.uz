@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { hasLocale, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import { fetchProductBySlugId, fetchProductContent } from "@/api/products-api";
 import { OrderForm } from "@/components/pages/product/OrderForm";
 import { ContentRenderer } from "@/components/pages/product/ContentRenderer";
+import { Container } from "@/components/ui/Container";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,11 @@ export default async function ProductDetailPage({
 
   const locale = lang as Locale;
 
+  const [dict, contentBlocks] = await Promise.all([
+    getDictionary(locale),
+    fetchProductContent(productSlugId, locale),
+  ]);
+
   let product;
   try {
     product = await fetchProductBySlugId(productSlugId, locale);
@@ -23,17 +30,15 @@ export default async function ProductDetailPage({
     notFound();
   }
 
-  const contentBlocks = await fetchProductContent(productSlugId, locale);
-
   const primaryCategory = product.categories[0];
   const categorySlug = primaryCategory?.slug ?? slug;
   const categoryName = primaryCategory?.name ?? "Category";
 
   return (
     <main className="min-h-screen bg-[#fbfbfd]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <Container className="px-4 sm:px-6 lg:px-8 py-16">
         {/* Breadcrumb */}
-        <nav className="mb-10 flex items-center gap-2 text-sm text-black/40 flex-wrap">
+        <nav className="mb-10 mt-10 flex items-center gap-2 text-sm text-black/40 flex-wrap">
           <Link
             href={`/${lang}/categories`}
             className="hover:text-black transition-colors"
@@ -62,7 +67,7 @@ export default async function ProductDetailPage({
               src={product.imgUrl}
               alt={product.title}
               fill
-              className="object-contain p-10"
+              className="object-cover"
               priority
             />
           </div>
@@ -92,12 +97,14 @@ export default async function ProductDetailPage({
 
             <OrderForm
               productId={product.id}
+              productTitle={product.title}
+              label={dict.product.orderBtn}
               btn1Color={product.btn1Color}
               btn1BgColor={product.btn1BgColor}
             />
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Rich content blocks */}
       <ContentRenderer blocks={contentBlocks} />

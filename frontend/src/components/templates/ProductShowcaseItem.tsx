@@ -7,6 +7,7 @@ import Image from "next/image";
 import type { HomeProduct } from "@/types/product";
 import { Button } from "@/components/ui/Button";
 import { ProductOrderDialog } from "@/components/ui/ProductOrderDialog";
+import { useParams } from "next/navigation";
 
 export default function ProductShowcaseItem({
   config,
@@ -15,6 +16,7 @@ export default function ProductShowcaseItem({
   config: HomeProduct;
   reversed: boolean;
 }) {
+  const { lang } = useParams<{ lang: string }>();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const dict = useDict();
@@ -55,18 +57,20 @@ export default function ProductShowcaseItem({
           </p>
 
           <div className="mt-8 flex items-center justify-center gap-4">
-            {/* <Button
-              variant="primary"
-              href={`/products/${slugify(config.title)}`}
-              size="lg"
-              style={{
-                color: config.btn1Color,
-                backgroundColor: config.btn1BgColor,
-              }}
-              className="border-black"
-            >
-              {dict.showcase.learnMore}
-            </Button> */}
+            {config.hasContent && (
+              <Button
+                variant="primary"
+                href={`/${lang}/categories/${config?.categories?.[0]?.slug}/${config.slug}`}
+                size="lg"
+                style={{
+                  color: config.btn1Color,
+                  backgroundColor: config.btn1BgColor,
+                }}
+                className="border-black"
+              >
+                {dict.showcase.learnMore}
+              </Button>
+            )}
             <Button
               variant="primary"
               size="lg"

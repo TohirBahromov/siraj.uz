@@ -22,6 +22,7 @@ export declare class ProductsService {
         imgUrl: string;
         backgroundColor: string;
         placement: import("@prisma/client").$Enums.ProductPlacement;
+        hasContent: boolean;
         categories: {
             id: number;
             slug: string;

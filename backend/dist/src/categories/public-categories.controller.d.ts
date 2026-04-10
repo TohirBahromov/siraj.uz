@@ -20,6 +20,7 @@ export declare class PublicCategoriesController {
             btn2Color: string;
             btn2BgColor: string;
             placement: import("@prisma/client").$Enums.ProductPlacement;
+            categories: number[];
         }[];
         nextCursor: number | null;
     }>;

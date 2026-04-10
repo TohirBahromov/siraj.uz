@@ -25,7 +25,158 @@
       "orders": "Orders",
       "staff": "Staff Members",
       "newStaffMember": "New staff member",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "contentSection": "Content",
+      "companySection": "Company",
+      "salesSection": "Sales"
+    },
+    "common": {
+      "loading": "Loading…",
+      "saving": "Saving…",
+      "uploading": "Uploading…",
+      "backToList": "Back to list",
+      "create": "Create",
+      "saveChanges": "Save changes",
+      "cancel": "Cancel",
+      "editPrefix": "Edit ·",
+      "deleteFailed": "Delete failed",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "total": "Total:"
+    },
+    "categories": {
+      "title": "Categories",
+      "newBtn": "New category",
+      "colName": "Name",
+      "colSlug": "Slug",
+      "colParent": "Parent",
+      "empty": "No categories yet. Create your first one.",
+      "deleteConfirm": "Delete this category? All subcategories will also be deleted.",
+      "newTitle": "New Category",
+      "notFound": "Category not found",
+      "form": {
+        "nameLabel": "Name",
+        "namePlaceholder": "Category name",
+        "slugLabel": "Slug (auto-generated)",
+        "slugPlaceholder": "auto-generated-slug",
+        "thumbnailTitle": "Thumbnail",
+        "chooseImage": "Choose image",
+        "imageHint": "Square image recommended (min 400×400 px)",
+        "parentTitle": "Parent Category",
+        "parentHint": "Leave empty for a top-level category",
+        "noParent": "— None (top-level) —",
+        "uploadFirst": "Please upload a thumbnail image first.",
+        "createBtn": "Create category"
+      }
+    },
+    "products": {
+      "title": "Products",
+      "newBtn": "New product",
+      "colImage": "Image",
+      "colTitle": "Title",
+      "colDesc": "Description",
+      "colSection": "Section",
+      "empty": "No products yet. Create one.",
+      "deleteConfirm": "Delete this product?",
+      "newTitle": "New product",
+      "notFound": "Product not found",
+      "contentLabel": "Product content",
+      "form": {
+        "titleLabel": "Title",
+        "descLabel": "Description",
+        "categoriesLabel": "Categories",
+        "preview": "Live Preview",
+        "previewHint": "— hover to change image · click pipette icons to change colors",
+        "showcase": "Showcase",
+        "grid": "Grid",
+        "noImageWarning": "⚠ No image uploaded yet — hover the preview and click the upload icon to add one."
+      }
+    },
+    "heroSlides": {
+      "title": "Hero Slides",
+      "newBtn": "New slide",
+      "colHeadline": "Headline (EN)",
+      "colVideo": "Video",
+      "empty": "No hero slides yet. Create one to see it on the home page.",
+      "deleteConfirm": "Delete this hero slide?",
+      "newTitle": "New Hero Slide",
+      "editTitle": "Edit Slide ·",
+      "notFound": "Hero slide not found",
+      "loadingData": "Loading hero slide data…",
+      "form": {
+        "eyebrow": "Eyebrow",
+        "headline": "Headline",
+        "subline": "Subline",
+        "preview": "Live Preview",
+        "previewHint": "— click \"Change Video\" to upload · click pipette icons to change text colors",
+        "noVideoWarning": "⚠ No video uploaded yet — click \"Change Video\" in the preview to add one."
+      }
+    },
+    "staff": {
+      "colPhoto": "Photo",
+      "colName": "Name",
+      "colPosition": "Position",
+      "colOrder": "Order",
+      "empty": "No staff members yet. Create one or run the seed.",
+      "deleteConfirm": "Delete this staff member?",
+      "newTitle": "New staff member",
+      "notFound": "Staff member not found",
+      "loadingMembers": "Loading staff members…",
+      "form": {
+        "nameLabel": "Name",
+        "namePlaceholder": "Full name",
+        "positionLabel": "Position",
+        "positionPlaceholder": "e.g. Chief Executive Officer",
+        "photoTitle": "Photo",
+        "choosePhoto": "Choose photo",
+        "photoHint": "Recommended: portrait photo, min 400×500px",
+        "displayOrderTitle": "Display Order",
+        "orderHint": "Order index (lower = shown first)",
+        "uploadFirst": "Please upload a photo first.",
+        "createBtn": "Create staff member"
+      }
+    },
+    "orders": {
+      "title": "Product Orders",
+      "colId": "#",
+      "colName": "Name",
+      "colPhone": "Phone",
+      "colProduct": "Product",
+      "colDate": "Date",
+      "empty": "No orders yet.",
+      "loadError": "Failed to load orders"
+    },
+    "company": {
+      "title": "Company",
+      "locationTitle": "Location",
+      "address": "Address",
+      "addressPlaceholder": "e.g. Yunusobod, Anorzor, 99",
+      "pinMap": "Pin on map",
+      "pinMapHint": "— click to place marker",
+      "mapsError": "⚠ Yandex Maps failed to load. Check your API key.",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "contactTitle": "Contact",
+      "phone": "Phone number",
+      "email": "Email address",
+      "emailPlaceholder": "hello@company.com",
+      "workingHoursTitle": "Working Hours",
+      "fromDay": "From day",
+      "toDay": "To day",
+      "opensAt": "Opens at",
+      "closesAt": "Closes at",
+      "noChanges": "No changes to save.",
+      "saveBtn": "Save company info",
+      "errors": {
+        "location": "Pick a location on the map.",
+        "address": "Address is required.",
+        "phone": "Enter a valid phone number.",
+        "emailRequired": "Email is required.",
+        "emailInvalid": "Enter a valid email.",
+        "endDay": "End day must be after start day.",
+        "endTime": "End time must be after start time."
+      }
     }
   },
   "hero": {
@@ -200,5 +351,29 @@
     "staffBadge": "Our Team",
     "staffTitle": "Meet the people behind Siraj.",
     "staffSubline": "Our leadership team brings decades of combined experience in technology, design, and business to deliver products you love."
+  },
+  "product": {
+    "orderBtn": "Submit Application"
+  },
+  "categories": {
+    "title": "Categories",
+    "subtitle": "Browse our full range of products by category.",
+    "empty": "No categories available yet.",
+    "breadcrumb": "Categories",
+    "productsCount": "products",
+    "noProducts": "No products in this category yet.",
+    "loadMore": "Load more"
+  },
+  "orderDialog": {
+    "title": "Buy",
+    "success": "Request received!",
+    "successText": "We'll contact you shortly.",
+    "close": "Close",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "John Doe",
+    "phoneLabel": "Phone Number",
+    "sendLoading": "Sending…",
+    "sendBtn": "Send Request",
+    "error": "Something went wrong. Please try again."
   }
 }

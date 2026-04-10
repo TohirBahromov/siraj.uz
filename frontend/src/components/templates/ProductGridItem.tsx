@@ -8,6 +8,8 @@ import { Button } from "../ui/Button";
 import { ProductOrderDialog } from "@/components/ui/ProductOrderDialog";
 import type { HomeProduct } from "@/types/product";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { slugify } from "@/lib/slugify";
 
 interface Props {
   config: HomeProduct;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export default function ProductGridItem({ config, index }: Props) {
+  const { lang } = useParams<{ lang: string }>();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const dict = useDict();
@@ -58,18 +61,20 @@ export default function ProductGridItem({ config, index }: Props) {
             {config.desc}
           </p>
           <div className="mt-5 flex items-center gap-4">
-            {/* <Button
-              variant="primary"
-              href={`/products/${slugify(config.title)}`}
-              size="sm"
-              style={{
-                color: config.btn1Color,
-                backgroundColor: config.btn1BgColor,
-                border: "none",
-              }}
-            >
-              {dict.grid.learnMore}
-            </Button> */}
+            {config.hasContent && (
+              <Button
+                variant="primary"
+                href={`/${lang}/categories/${config?.categories[0]?.slug}/${config.slug}`}
+                size="sm"
+                style={{
+                  color: config.btn1Color,
+                  backgroundColor: config.btn1BgColor,
+                  border: "none",
+                }}
+              >
+                {dict.grid.learnMore}
+              </Button>
+            )}
             <Button
               variant="primary"
               size="sm"

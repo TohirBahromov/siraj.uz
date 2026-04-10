@@ -43,9 +43,7 @@ function CategoryCard({
   );
 }
 
-export default async function CategoriesPage({
-  params,
-}: PageProps<"/[lang]">) {
+export default async function CategoriesPage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
@@ -56,11 +54,11 @@ export default async function CategoriesPage({
     <main className="min-h-screen bg-[#fbfbfd]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-semibold tracking-tight text-[#1d1d1f]">
+        <div className="mb-12 mt-10">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1d1d1f]">
             Categories
           </h1>
-          <p className="mt-3 text-lg text-black/50">
+          <p className="mt-3 text-base text-black/50">
             Browse our full range of products by category.
           </p>
         </div>

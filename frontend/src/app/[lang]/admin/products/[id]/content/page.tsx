@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import { BlockEditor } from "@/components/admin/BlockEditor";
 import type { ContentBlock } from "@/types/product";
 
@@ -15,6 +16,8 @@ type Locale = (typeof LOCALES)[number];
 export default function ProductContentPage() {
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const router = useRouter();
+  const dict = useDict();
+  const d = dict.admin;
   const base = useMemo(
     () =>
       typeof lang === "string" && hasLocale(lang)
@@ -84,7 +87,7 @@ export default function ProductContentPage() {
           <ArrowLeft size={18} />
         </Link>
         <div>
-          <p className="text-xs text-black/40 mb-0.5">Product content</p>
+          <p className="text-xs text-black/40 mb-0.5">{d.products.contentLabel}</p>
           <h1 className="text-2xl font-semibold tracking-tight">{productTitle}</h1>
         </div>
       </div>
@@ -109,7 +112,7 @@ export default function ProductContentPage() {
 
       {/* Editor */}
       {loading && !loadedLocales.has(activeLocale) ? (
-        <p className="text-black/40 text-sm animate-pulse py-8">Loading…</p>
+        <p className="text-black/40 text-sm animate-pulse py-8">{d.common.loading}</p>
       ) : loadedLocales.has(activeLocale) ? (
         <BlockEditor
           key={`${id}-${activeLocale}`}

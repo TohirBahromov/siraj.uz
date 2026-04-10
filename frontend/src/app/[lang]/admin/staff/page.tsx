@@ -55,23 +55,23 @@ export default function AdminStaffPage() {
       `/admin/staff-members?page=${currentPage}&limit=${LIMIT}`,
     );
     if (!res.ok) {
-      setError(`Could not load staff members (${res.status})`);
+      setError(`${dict.admin.staff.colName} (${res.status})`);
       return;
     }
     setData(await res.json());
-  }, [currentPage]);
+  }, [currentPage, dict.admin.staff.colName]);
 
   useEffect(() => {
     load();
   }, [load]);
 
   async function remove(id: number) {
-    if (!confirm("Delete this staff member?")) return;
+    if (!confirm(dict.admin.staff.deleteConfirm)) return;
     const res = await adminFetch(`/admin/staff-members/${id}`, {
       method: "DELETE",
     });
     if (!res.ok) {
-      alert("Delete failed");
+      alert(dict.admin.common.deleteFailed);
       return;
     }
     load();
@@ -94,7 +94,7 @@ export default function AdminStaffPage() {
   if (!data)
     return (
       <p className="text-black/50 text-sm animate-pulse">
-        Loading staff members…
+        {dict.admin.staff.loadingMembers}
       </p>
     );
 
@@ -106,14 +106,14 @@ export default function AdminStaffPage() {
             {dict.admin.sidebar.staff}
           </h1>
           <p className="text-sm text-black/40 mt-0.5">
-            Total: {data.meta?.total || 0}
+            {dict.admin.common.total} {data.meta?.total || 0}
           </p>
         </div>
         <Link
           href={`${base}/staff/new`}
           className="rounded-full bg-[#1d1d1f] text-white text-sm px-5 py-2.5 font-medium hover:bg-black/85 whitespace-nowrap"
         >
-          {dict.admin.sidebar.newStaffMember}
+          {dict.admin.staff.newTitle}
         </Link>
       </div>
 
@@ -125,13 +125,13 @@ export default function AdminStaffPage() {
 
       <div className="rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm">
         <table className="w-full text-sm text-left">
-          <thead className="bg-black/[0.03] text-black/50 font-medium border-b border-black/10">
+          <thead className="bg-black/3 text-black/50 font-medium border-b border-black/10">
             <tr>
-              <th className="px-4 py-3 w-16">#</th>
-              <th className="px-4 py-3 w-20">Photo</th>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Position</th>
-              <th className="px-4 py-3 w-20 text-center">Order</th>
+              <th className="px-4 py-3 w-16">{dict.admin.orders.colId}</th>
+              <th className="px-4 py-3 w-20">{dict.admin.staff.colPhoto}</th>
+              <th className="px-4 py-3">{dict.admin.staff.colName}</th>
+              <th className="px-4 py-3">{dict.admin.staff.colPosition}</th>
+              <th className="px-4 py-3 w-20 text-center">{dict.admin.staff.colOrder}</th>
               <th className="px-4 py-3 w-28" />
             </tr>
           </thead>
@@ -142,7 +142,7 @@ export default function AdminStaffPage() {
                   colSpan={6}
                   className="px-4 py-16 text-center text-black/30"
                 >
-                  No staff members yet. Create one or run the seed.
+                  {dict.admin.staff.empty}
                 </td>
               </tr>
             ) : (
@@ -198,23 +198,23 @@ export default function AdminStaffPage() {
         </table>
 
         {data.meta?.lastPage > 1 && (
-          <div className="px-4 py-4 border-t border-black/10 flex items-center justify-between bg-black/[0.01]">
+          <div className="px-4 py-4 border-t border-black/10 flex items-center justify-between bg-black/1">
             <button
               disabled={currentPage <= 1}
               onClick={() => handlePageChange(currentPage - 1)}
               className="px-4 py-2 text-sm font-medium rounded-xl border border-black/10 disabled:opacity-30 bg-white hover:bg-black/5 transition-colors"
             >
-              Previous
+              {dict.admin.common.previous}
             </button>
             <span className="text-sm text-black/50">
-              Page {currentPage} / {data.meta.lastPage}
+              {dict.admin.common.page} {currentPage} / {data.meta.lastPage}
             </span>
             <button
               disabled={currentPage >= data.meta.lastPage}
               onClick={() => handlePageChange(currentPage + 1)}
               className="px-4 py-2 text-sm font-medium rounded-xl border border-black/10 disabled:opacity-30 bg-white hover:bg-black/5 transition-colors"
             >
-              Next
+              {dict.admin.common.next}
             </button>
           </div>
         )}

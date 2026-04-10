@@ -25,7 +25,158 @@
       "orders": "Buyurtmalar",
       "staff": "Xodimlar",
       "newStaffMember": "Yangi xodim",
-      "signOut": "Chiqish"
+      "signOut": "Chiqish",
+      "contentSection": "Kontent",
+      "companySection": "Kompaniya",
+      "salesSection": "Sotuv"
+    },
+    "common": {
+      "loading": "Yuklanmoqda…",
+      "saving": "Saqlanmoqda…",
+      "uploading": "Yuklanmoqda…",
+      "backToList": "Ro'yxatga qaytish",
+      "create": "Yaratish",
+      "saveChanges": "O'zgarishlarni saqlash",
+      "cancel": "Bekor qilish",
+      "editPrefix": "Tahrirlash ·",
+      "deleteFailed": "O'chirishda xatolik",
+      "previous": "Oldingi",
+      "next": "Keyingi",
+      "page": "Sahifa",
+      "total": "Jami:"
+    },
+    "categories": {
+      "title": "Kategoriyalar",
+      "newBtn": "Yangi kategoriya",
+      "colName": "Nomi",
+      "colSlug": "Slug",
+      "colParent": "Asosiy",
+      "empty": "Hali kategoriyalar yo'q. Birinchisini yarating.",
+      "deleteConfirm": "Kategoriyani o'chirilsinmi? Barcha quyi kategoriyalar ham o'chiriladi.",
+      "newTitle": "Yangi kategoriya",
+      "notFound": "Kategoriya topilmadi",
+      "form": {
+        "nameLabel": "Nomi",
+        "namePlaceholder": "Kategoriya nomi",
+        "slugLabel": "Slug (avtomatik yaratiladi)",
+        "slugPlaceholder": "avtomatik-slug",
+        "thumbnailTitle": "Rasm",
+        "chooseImage": "Rasm tanlash",
+        "imageHint": "Kvadrat rasm tavsiya etiladi (min 400×400 px)",
+        "parentTitle": "Asosiy kategoriya",
+        "parentHint": "Yuqori darajali kategoriya uchun bo'sh qoldiring",
+        "noParent": "— Yo'q (yuqori daraja) —",
+        "uploadFirst": "Avval rasmni yuklang.",
+        "createBtn": "Kategoriya yaratish"
+      }
+    },
+    "products": {
+      "title": "Mahsulotlar",
+      "newBtn": "Yangi mahsulot",
+      "colImage": "Rasm",
+      "colTitle": "Sarlavha",
+      "colDesc": "Tavsif",
+      "colSection": "Bo'lim",
+      "empty": "Hali mahsulotlar yo'q. Yangi yarating.",
+      "deleteConfirm": "Mahsulotni o'chirilsinmi?",
+      "newTitle": "Yangi mahsulot",
+      "notFound": "Mahsulot topilmadi",
+      "contentLabel": "Mahsulot matni",
+      "form": {
+        "titleLabel": "Sarlavha",
+        "descLabel": "Tavsif",
+        "categoriesLabel": "Kategoriyalar",
+        "preview": "Jonli ko'rinish",
+        "previewHint": "— rasmni o'zgartirish uchun ustiga boring · rang uchun pipet belgisiga bosing",
+        "showcase": "Vitrina",
+        "grid": "Jadval",
+        "noImageWarning": "⚠ Rasm yuklanmagan — ko'rinishga borib yuklash belgisini bosing."
+      }
+    },
+    "heroSlides": {
+      "title": "Hero slaydlar",
+      "newBtn": "Yangi slayd",
+      "colHeadline": "Sarlavha (EN)",
+      "colVideo": "Video",
+      "empty": "Hali hero slaydlar yo'q. Bosh sahifada ko'rsatish uchun yarating.",
+      "deleteConfirm": "Hero slaydni o'chirilsinmi?",
+      "newTitle": "Yangi hero slayd",
+      "editTitle": "Tahrirlash ·",
+      "notFound": "Hero slayd topilmadi",
+      "loadingData": "Hero slayd ma'lumotlari yuklanmoqda…",
+      "form": {
+        "eyebrow": "Yuqori matn",
+        "headline": "Sarlavha",
+        "subline": "Qo'shimcha matn",
+        "preview": "Jonli ko'rinish",
+        "previewHint": "— video yuklash uchun \"Videoni o'zgartirish\" tugmasini bosing",
+        "noVideoWarning": "⚠ Video yuklanmagan — ko'rinishdagi tugmani bosing."
+      }
+    },
+    "staff": {
+      "colPhoto": "Foto",
+      "colName": "Ism",
+      "colPosition": "Lavozim",
+      "colOrder": "Tartib",
+      "empty": "Hali xodimlar yo'q. Yarating.",
+      "deleteConfirm": "Xodimni o'chirilsinmi?",
+      "newTitle": "Yangi xodim",
+      "notFound": "Xodim topilmadi",
+      "loadingMembers": "Xodimlar yuklanmoqda…",
+      "form": {
+        "nameLabel": "Ism",
+        "namePlaceholder": "To'liq ism",
+        "positionLabel": "Lavozim",
+        "positionPlaceholder": "masalan, Bosh ijrochi direktor",
+        "photoTitle": "Foto",
+        "choosePhoto": "Foto tanlash",
+        "photoHint": "Tavsiya etiladi: portret foto, min 400×500px",
+        "displayOrderTitle": "Ko'rsatish tartibi",
+        "orderHint": "Tartib indeksi (kichikroq = birinchi ko'rsatiladi)",
+        "uploadFirst": "Avval fotoni yuklang.",
+        "createBtn": "Xodim yaratish"
+      }
+    },
+    "orders": {
+      "title": "Mahsulot buyurtmalari",
+      "colId": "#",
+      "colName": "Ism",
+      "colPhone": "Telefon",
+      "colProduct": "Mahsulot",
+      "colDate": "Sana",
+      "empty": "Hali buyurtmalar yo'q.",
+      "loadError": "Buyurtmalarni yuklashda xatolik"
+    },
+    "company": {
+      "title": "Kompaniya",
+      "locationTitle": "Joylashuv",
+      "address": "Manzil",
+      "addressPlaceholder": "masalan, Yunusobod, Anorzor, 99",
+      "pinMap": "Xaritada belgilash",
+      "pinMapHint": "— marker qo'yish uchun bosing",
+      "mapsError": "⚠ Yandex Xaritalar yuklanmadi. API kalitini tekshiring.",
+      "latitude": "Kenglik",
+      "longitude": "Uzunlik",
+      "contactTitle": "Aloqa",
+      "phone": "Telefon raqami",
+      "email": "Elektron pochta",
+      "emailPlaceholder": "hello@company.com",
+      "workingHoursTitle": "Ish vaqti",
+      "fromDay": "Boshlanish kuni",
+      "toDay": "Tugash kuni",
+      "opensAt": "Ochilish vaqti",
+      "closesAt": "Yopilish vaqti",
+      "noChanges": "Saqlanadigan o'zgarishlar yo'q.",
+      "saveBtn": "Kompaniya ma'lumotlarini saqlash",
+      "errors": {
+        "location": "Xaritada joylashuvni belgilang.",
+        "address": "Manzil kiritish shart.",
+        "phone": "To'g'ri telefon raqamini kiriting.",
+        "emailRequired": "Elektron pochta kiritish shart.",
+        "emailInvalid": "To'g'ri elektron pochta kiriting.",
+        "endDay": "Tugash kuni boshlanish kunidan keyin bo'lishi kerak.",
+        "endTime": "Yopilish vaqti ochilish vaqtidan keyin bo'lishi kerak."
+      }
     }
   },
   "hero": {
@@ -206,5 +357,29 @@
     "staffBadge": "Bizning jamoa",
     "staffTitle": "Siraj ortidagi odamlar bilan tanishing.",
     "staffSubline": "Rahbariyat jamoamiz sevimli mahsulotlaringizni yaratish uchun texnologiya, dizayn va biznes bo'yicha o'nlab yillik tajribani birlashtiradi."
+  },
+  "product": {
+    "orderBtn": "Zayavka berish"
+  },
+  "categories": {
+    "title": "Kategoriyalar",
+    "subtitle": "Barcha mahsulotlarimizni kategoriyalar bo'yicha ko'ring.",
+    "empty": "Hali kategoriyalar yo'q.",
+    "breadcrumb": "Kategoriyalar",
+    "productsCount": "mahsulot",
+    "noProducts": "Bu kategoriyada hali mahsulotlar yo'q.",
+    "loadMore": "Ko'proq yuklash"
+  },
+  "orderDialog": {
+    "title": "Sotib olish",
+    "success": "So'rov qabul qilindi!",
+    "successText": "Tez orada bog'lanamiz.",
+    "close": "Yopish",
+    "nameLabel": "To'liq ism",
+    "namePlaceholder": "Husanov Jasur",
+    "phoneLabel": "Telefon raqami",
+    "sendLoading": "Yuborilmoqda…",
+    "sendBtn": "So'rov yuborish",
+    "error": "Xatolik yuz berdi. Qayta urinib ko'ring."
   }
 }

@@ -46,7 +46,10 @@ let CategoriesService = class CategoriesService {
     async findAllAdmin() {
         return this.prisma.category.findMany({
             orderBy: { createdAt: 'asc' },
-            include: { translations: true, children: { include: { translations: true } } },
+            include: {
+                translations: true,
+                children: { include: { translations: true } },
+            },
         });
     }
     async findOneAdmin(id) {
@@ -145,10 +148,14 @@ let CategoriesService = class CategoriesService {
     }
     async findProductsBySlug(slug, locale, cursor, limit) {
         assertLocale(locale);
-        const byCanonical = await this.prisma.category.findUnique({ where: { slug } });
+        const byCanonical = await this.prisma.category.findUnique({
+            where: { slug },
+        });
         let categoryId = byCanonical?.id ?? null;
         if (!categoryId) {
-            const tr = await this.prisma.categoryTranslation.findFirst({ where: { slug } });
+            const tr = await this.prisma.categoryTranslation.findFirst({
+                where: { slug },
+            });
             categoryId = tr?.categoryId ?? null;
         }
         if (!categoryId)
@@ -158,7 +165,15 @@ let CategoriesService = class CategoriesService {
             orderBy: { createdAt: 'desc' },
             take: limit + 1,
             ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-            include: { translations: true },
+            include: {
+                translations: true,
+                categories: {
+                    select: {
+                        id: true,
+                        slug: true,
+                    },
+                },
+            },
         });
         const hasMore = rows.length > limit;
         const items = hasMore ? rows.slice(0, limit) : rows;
@@ -181,6 +196,7 @@ let CategoriesService = class CategoriesService {
                 btn2Color: p.btn2Color,
                 btn2BgColor: p.btn2BgColor,
                 placement: p.placement,
+                categories: p.categories.map((c) => c.id),
             };
         });
         return { products, nextCursor };
@@ -253,7 +269,9 @@ let CategoriesService = class CategoriesService {
     async computeLevel(parentId) {
         if (!parentId)
             return 0;
-        const parent = await this.prisma.category.findUnique({ where: { id: parentId } });
+        const parent = await this.prisma.category.findUnique({
+            where: { id: parentId },
+        });
         return parent ? parent.level + 1 : 0;
     }
     async uniqueSlug(base, excludeId) {

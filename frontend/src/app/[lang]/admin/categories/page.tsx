@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import type { AdminCategory } from "@/types/category";
 import { Edit, Trash, ChevronRight } from "lucide-react";
 
@@ -58,7 +59,7 @@ function CategoryRow({
             <span className="font-medium text-sm">{categoryLabel(cat)}</span>
           </div>
         </td>
-        <td className="px-4 py-3 text-sm text-black/40 font-mono text-xs">
+        <td className="px-4 py-3 text-xs text-black/40 font-mono">
           {cat.slug}
         </td>
         <td className="px-4 py-3 text-sm text-black/40">
@@ -99,6 +100,8 @@ function CategoryRow({
 export default function AdminCategoriesPage() {
   const params = useParams<{ lang: string }>();
   const lang = params.lang;
+  const dict = useDict();
+  const d = dict.admin;
   const base = useMemo(
     () =>
       typeof lang === "string" && hasLocale(lang)
@@ -114,43 +117,42 @@ export default function AdminCategoriesPage() {
     setError(null);
     const res = await adminFetch("/admin/categories");
     if (!res.ok) {
-      setError(`Could not load categories (${res.status})`);
+      setError(`${d.categories.title} (${res.status})`);
       setItems([]);
       return;
     }
     setItems((await res.json()) as AdminCategory[]);
-  }, []);
+  }, [d.categories.title]);
 
   useEffect(() => {
     load();
   }, [load]);
 
   async function remove(id: number) {
-    if (!confirm("Delete this category? All subcategories will also be deleted.")) return;
+    if (!confirm(d.categories.deleteConfirm)) return;
     const res = await adminFetch(`/admin/categories/${id}`, { method: "DELETE" });
     if (!res.ok) {
-      alert("Delete failed");
+      alert(d.common.deleteFailed);
       return;
     }
     load();
   }
 
   if (items === null) {
-    return <p className="text-black/50 text-sm animate-pulse">Loading…</p>;
+    return <p className="text-black/50 text-sm animate-pulse">{d.common.loading}</p>;
   }
 
-  // Render top-level categories; children are rendered recursively
   const topLevel = items.filter((c) => !c.parentId);
 
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Categories</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{d.categories.title}</h1>
         <Link
           href={`${base}/categories/new`}
           className="rounded-full bg-[#1d1d1f] text-white text-sm px-5 py-2.5 font-medium hover:bg-black/85"
         >
-          New category
+          {d.categories.newBtn}
         </Link>
       </div>
 
@@ -165,9 +167,9 @@ export default function AdminCategoriesPage() {
           <thead className="bg-black/3 text-black/50 font-medium border-b border-black/10">
             <tr>
               <th className="px-4 py-3 w-14" />
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Slug</th>
-              <th className="px-4 py-3">Parent</th>
+              <th className="px-4 py-3">{d.categories.colName}</th>
+              <th className="px-4 py-3">{d.categories.colSlug}</th>
+              <th className="px-4 py-3">{d.categories.colParent}</th>
               <th className="px-4 py-3 w-28" />
             </tr>
           </thead>
@@ -175,7 +177,7 @@ export default function AdminCategoriesPage() {
             {topLevel.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-4 py-10 text-center text-black/40">
-                  No categories yet. Create your first one.
+                  {d.categories.empty}
                 </td>
               </tr>
             ) : (

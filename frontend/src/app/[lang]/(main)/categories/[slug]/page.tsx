@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { hasLocale, type Locale } from "@/i18n/config";
-import { fetchCategoryBySlug, fetchCategoryProductsPage } from "@/api/categories-api";
+import {
+  fetchCategoryBySlug,
+  fetchCategoryProductsPage,
+} from "@/api/categories-api";
 import { CategoryProductList } from "@/components/pages/category/CategoryProductList";
 
 export const dynamic = "force-dynamic";
@@ -29,8 +32,11 @@ export default async function CategoryPage({
     <main className="min-h-screen bg-[#fbfbfd]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-black/40">
-          <Link href={`/${lang}/categories`} className="hover:text-black transition-colors">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-black/40 mt-10">
+          <Link
+            href={`/${lang}/categories`}
+            className="hover:text-black transition-colors"
+          >
             Categories
           </Link>
           <span>/</span>

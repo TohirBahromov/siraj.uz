@@ -8,12 +8,10 @@ import {
   Building2,
   Globe,
   Images,
-  Laptop,
   LayoutGrid,
   LogOut,
   Mail,
   PackageCheck,
-  PanelLeftOpen,
   ShoppingCart,
   Users,
 } from "lucide-react";
@@ -28,7 +26,7 @@ const Sidebar = ({ base }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const dict = useDict();
-  const { isOpen, toggle: toggleSidebar } = useSidebar();
+  const { isOpen } = useSidebar();
 
   const d = dict.admin.sidebar;
 
@@ -41,15 +39,6 @@ const Sidebar = ({ base }: Props) => {
     <aside
       className={`duration-500 border-r border-black/10 bg-white md:min-h-screen ${isOpen ? "w-64" : "w-18!"} md:w-64 flex flex-col pt-6 md:pb-6 shrink-0 fixed top-0 bottom-0 ${isOpen ? "left-0 md:left-0" : "-left-full md:left-0"} right-0 md:relative z-20`}
     >
-      <button
-        className="absolute top-12 -right-2 bg-white p-1 rounded-md shadow-sm cursor-pointer hidden md:block"
-        onClick={toggleSidebar}
-      >
-        <div className={`duration-500 ${isOpen ? "-scale-x-100" : ""}`}>
-          <PanelLeftOpen size={18} />
-        </div>
-      </button>
-
       <div className="px-6 mb-8">
         <Link
           href={`${base}/products`}
@@ -67,7 +56,7 @@ const Sidebar = ({ base }: Props) => {
         </Link>
       </div>
       <nav className="flex-1 flex flex-col gap-2 px-4">
-        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Kontent</h2>}
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">{d.contentSection}</h2>}
         <Link
           href={`${base}/categories`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/categories`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
@@ -89,7 +78,7 @@ const Sidebar = ({ base }: Props) => {
           <Images size={18} />
           {isOpen && d.heroSlides}
         </Link>
-        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Kompaniya</h2>}
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">{d.companySection}</h2>}
         <Link
           href={`${base}/company`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/company`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}
@@ -104,7 +93,7 @@ const Sidebar = ({ base }: Props) => {
           <Users size={18} />
           {isOpen && d.staff}
         </Link>
-        {isOpen && <h2 className="text-slate-500 text-xs mt-1">Sotuv</h2>}
+        {isOpen && <h2 className="text-slate-500 text-xs mt-1">{d.salesSection}</h2>}
         <Link
           href={`${base}/enquiries`}
           className={`p-2 rounded-xl text-sm transition-colors flex items-center ${isOpen ? "justify-start" : "justify-center"} gap-2 shrink-0! ${pathname.includes(`${base}/enquiries`) ? "bg-black text-white font-medium" : "text-black/60 hover:bg-black/5 hover:text-black min-w-max"}`}

@@ -41,6 +41,7 @@ let ProductsService = class ProductsService {
             include: {
                 translations: true,
                 categories: { include: { translations: true } },
+                contents: true,
             },
         });
         return products.map((p) => {
@@ -64,6 +65,9 @@ let ProductsService = class ProductsService {
                 imgUrl: p.imgUrl,
                 backgroundColor: p.backgroundColor,
                 placement: p.placement,
+                hasContent: p.contents.some((c) => c.locale === locale &&
+                    Array.isArray(c.blocks) &&
+                    c.blocks.length > 0),
                 categories: p.categories.map((c) => {
                     const ct = pickTranslation(c.translations, locale);
                     return { id: c.id, slug: ct?.slug ?? c.slug, name: ct?.name ?? '' };
@@ -193,6 +197,9 @@ let ProductsService = class ProductsService {
             data.categories = { set: dto.categoryIds.map((id) => ({ id })) };
         }
         if (translations?.length) {
+            const primaryTitle = translations.find((t) => t.locale === 'uz')?.title ??
+                translations[0].title;
+            data.slug = (0, slugify_1.buildSlugId)((0, slugify_1.slugify)(primaryTitle), id);
             data.translations = {
                 deleteMany: {},
                 create: translations.map((tr) => ({

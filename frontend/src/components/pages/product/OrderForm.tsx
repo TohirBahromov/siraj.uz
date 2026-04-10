@@ -5,11 +5,13 @@ import { ProductOrderDialog } from "@/components/ui/ProductOrderDialog";
 
 interface Props {
   productId: number;
+  productTitle: string;
+  label: string;
   btn1Color: string;
   btn1BgColor: string;
 }
 
-export function OrderForm({ productId, btn1Color, btn1BgColor }: Props) {
+export function OrderForm({ productId, productTitle, label, btn1Color, btn1BgColor }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,13 +22,13 @@ export function OrderForm({ productId, btn1Color, btn1BgColor }: Props) {
         style={{ color: btn1Color, backgroundColor: btn1BgColor }}
         className="inline-flex items-center justify-center rounded-full px-8 py-3.5 text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer"
       >
-        Order Now
+        {label}
       </button>
 
       {open && (
         <ProductOrderDialog
           productId={productId}
-          productTitle=""
+          productTitle={productTitle}
           btn2Color={btn1Color}
           btn2BgColor={btn1BgColor}
           onClose={() => setOpen(false)}

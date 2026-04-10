@@ -225,7 +225,8 @@ export function ProductForm({
 
   const previewData: HomeProduct = {
     id: "preview",
-    badge: null, // badge managed via separate field if needed
+    slug: null,
+    badge: null,
     badgeColor,
     title: pData.title || "Preview Title",
     titleColor,
@@ -238,6 +239,8 @@ export function ProductForm({
     imgUrl: activeImgUrl,
     backgroundColor,
     placement,
+    hasContent: false,
+    categories: [],
   };
 
   const sharedColorProps = {

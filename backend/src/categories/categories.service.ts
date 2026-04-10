@@ -76,7 +76,10 @@ export class CategoriesService {
   async findAllAdmin() {
     return this.prisma.category.findMany({
       orderBy: { createdAt: 'asc' },
-      include: { translations: true, children: { include: { translations: true } } },
+      include: {
+        translations: true,
+        children: { include: { translations: true } },
+      },
     });
   }
 
@@ -171,7 +174,10 @@ export class CategoriesService {
 
   // ─── Public ───────────────────────────────────────────────────────────────
 
-  async findTree(locale: string, leafOnly = false): Promise<PublicCategoryNode[]> {
+  async findTree(
+    locale: string,
+    leafOnly = false,
+  ): Promise<PublicCategoryNode[]> {
     assertLocale(locale);
     const all = await this.prisma.category.findMany({
       include: { translations: true },
@@ -206,11 +212,15 @@ export class CategoriesService {
     assertLocale(locale);
 
     // Resolve category (canonical slug or locale slug)
-    const byCanonical = await this.prisma.category.findUnique({ where: { slug } });
+    const byCanonical = await this.prisma.category.findUnique({
+      where: { slug },
+    });
     let categoryId: number | null = byCanonical?.id ?? null;
 
     if (!categoryId) {
-      const tr = await this.prisma.categoryTranslation.findFirst({ where: { slug } });
+      const tr = await this.prisma.categoryTranslation.findFirst({
+        where: { slug },
+      });
       categoryId = tr?.categoryId ?? null;
     }
     if (!categoryId) return { products: [], nextCursor: null };
@@ -220,7 +230,15 @@ export class CategoriesService {
       orderBy: { createdAt: 'desc' },
       take: limit + 1,
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-      include: { translations: true },
+      include: {
+        translations: true,
+        categories: {
+          select: {
+            id: true,
+            slug: true,
+          },
+        },
+      },
     });
 
     const hasMore = rows.length > limit;
@@ -245,6 +263,7 @@ export class CategoriesService {
         btn2Color: p.btn2Color,
         btn2BgColor: p.btn2BgColor,
         placement: p.placement,
+        categories: p.categories.map((c) => c.id),
       };
     });
 
@@ -325,9 +344,13 @@ export class CategoriesService {
     return translation?.category ?? null;
   }
 
-  private async computeLevel(parentId: number | null | undefined): Promise<number> {
+  private async computeLevel(
+    parentId: number | null | undefined,
+  ): Promise<number> {
     if (!parentId) return 0;
-    const parent = await this.prisma.category.findUnique({ where: { id: parentId } });
+    const parent = await this.prisma.category.findUnique({
+      where: { id: parentId },
+    });
     return parent ? parent.level + 1 : 0;
   }
 
