@@ -11,6 +11,8 @@ interface Props {
   categorySlug: string;
   lang: string;
   locale: string;
+  noProductsText: string;
+  loadMoreText: string;
 }
 
 export function CategoryProductList({
@@ -19,6 +21,8 @@ export function CategoryProductList({
   categorySlug,
   lang,
   locale,
+  noProductsText,
+  loadMoreText,
 }: Props) {
   const [products, setProducts] = useState<HomeProduct[]>(initialProducts);
   const [nextCursor, setNextCursor] = useState<number | null>(
@@ -42,12 +46,10 @@ export function CategoryProductList({
   if (products.length === 0) {
     return (
       <p className="text-black/40 text-center py-20">
-        No products in this category yet.
+        {noProductsText}
       </p>
     );
   }
-
-  console.log(products);
 
   return (
     <div className="space-y-10">
@@ -64,7 +66,7 @@ export function CategoryProductList({
             disabled={loading}
             className="px-8 py-3 rounded-full border border-black/15 text-sm font-medium text-[#1d1d1f]/70 hover:text-[#1d1d1f] hover:border-black/30 hover:bg-black/3 transition-all disabled:opacity-50"
           >
-            {loading ? "Loading…" : "Load more"}
+            {loading ? "…" : loadMoreText}
           </button>
         </div>
       )}

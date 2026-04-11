@@ -149,7 +149,7 @@ export default function ProductGridItemAdmin({
       />
 
       {/* content */}
-      <div className="max-w-[300px] relative text-center flex flex-col items-center justify-center z-10">
+      <div className="max-w-75 relative text-center flex flex-col items-center justify-center z-10">
         {config.badge && (
           <div className="flex items-center gap-1.5 mb-2">
             <span
@@ -197,61 +197,15 @@ export default function ProductGridItemAdmin({
         <div className="mt-5 flex items-center gap-4">
           {/* btn 1 */}
           <div className="flex flex-col items-center gap-1">
-            <Button
-              variant="primary"
-              href={`/products/${productSlug}`}
-              size="sm"
-              style={{
-                color: btn1Color,
-                backgroundColor: btn1BgColor,
-                border: "none",
-              }}
-            >
+            <Button variant="primary" size="sm" type="button">
               {dict.grid.learnMore}
             </Button>
-            <div className="flex items-center gap-1">
-              <Pipetter
-                id={`grid-btn1txt-${index}`}
-                color={btn1Color}
-                setColor={setBtn1Color}
-                label="Button 1 text color"
-              />
-              <Pipetter
-                id={`grid-btn1bg-${index}`}
-                color={btn1BgColor}
-                setColor={setBtn1BgColor}
-                label="Button 1 background"
-              />
-            </div>
           </div>
           {/* btn 2 */}
           <div className="flex flex-col items-center gap-1">
-            <Button
-              variant="primary"
-              href="/store"
-              size="sm"
-              style={{
-                color: btn2Color,
-                backgroundColor: btn2BgColor,
-                border: "none",
-              }}
-            >
+            <Button variant="primary" size="sm" type="button">
               {dict.grid.buy}
             </Button>
-            <div className="flex items-center gap-1">
-              <Pipetter
-                id={`grid-btn2txt-${index}`}
-                color={btn2Color}
-                setColor={setBtn2Color}
-                label="Button 2 text color"
-              />
-              <Pipetter
-                id={`grid-btn2bg-${index}`}
-                color={btn2BgColor}
-                setColor={setBtn2BgColor}
-                label="Button 2 background"
-              />
-            </div>
           </div>
         </div>
       </div>

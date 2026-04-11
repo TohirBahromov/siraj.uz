@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import { slugify } from "@/lib/slugify";
 import type { AdminCategory } from "@/types/category";
 import { Upload } from "lucide-react";
@@ -51,6 +52,8 @@ export interface CategoryFormProps {
 export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
+  const dict = useDict();
+  const d = dict.admin;
 
   const adminListPath = useMemo(() => {
     const lang = params.lang;
@@ -126,7 +129,7 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
     setError(null);
 
     if (!imgUrl) {
-      setError("Please upload a thumbnail image first.");
+      setError(d.categories.form.uploadFirst);
       return;
     }
 
@@ -204,24 +207,24 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
 
         <div className="p-6 space-y-5">
           <label className="flex flex-col gap-1 text-sm">
-            <span className="text-black/60">Name</span>
+            <span className="text-black/60">{d.categories.form.nameLabel}</span>
             <input
               required
               value={translations[activeTab].name}
               onChange={(e) => setTr(activeTab, "name", e.target.value)}
-              placeholder="Category name"
+              placeholder={d.categories.form.namePlaceholder}
               className="rounded-xl border border-black/15 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400"
             />
           </label>
 
           <label className="flex flex-col gap-1 text-sm">
             <span className="text-black/60">
-              Slug (auto-generated)
+              {d.categories.form.slugLabel}
             </span>
             <input
               value={translations[activeTab].slug}
               onChange={(e) => setTr(activeTab, "slug", e.target.value)}
-              placeholder="auto-generated-slug"
+              placeholder={d.categories.form.slugPlaceholder}
               className="rounded-xl border border-black/15 px-3 py-2 bg-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-black/50"
             />
           </label>
@@ -231,7 +234,7 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
       {/* ── Thumbnail upload ── */}
       <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
         <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold">
-          Thumbnail
+          {d.categories.form.thumbnailTitle}
         </div>
         <div className="p-6 flex items-start gap-6">
           <div className="relative w-32 h-32 rounded-xl overflow-hidden bg-[#f5f5f7] border border-black/10 shrink-0">
@@ -252,7 +255,7 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
           <div className="flex flex-col gap-3 pt-1">
             <label className="cursor-pointer inline-flex items-center gap-2 rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm font-medium hover:bg-black/5 transition-colors">
               <Upload size={16} />
-              {uploading ? "Uploading…" : "Choose image"}
+              {uploading ? d.common.uploading : d.categories.form.chooseImage}
               <input
                 type="file"
                 accept="image/*"
@@ -267,7 +270,7 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
               <p className="text-xs text-black/40 break-all max-w-xs">{imgUrl}</p>
             )}
             <p className="text-xs text-black/30">
-              Square image recommended (min 400×400 px)
+              {d.categories.form.imageHint}
             </p>
           </div>
         </div>
@@ -276,12 +279,12 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
       {/* ── Parent category ── */}
       <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
         <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold">
-          Parent Category
+          {d.categories.form.parentTitle}
         </div>
         <div className="p-6">
           <label className="flex flex-col gap-1 text-sm">
             <span className="text-black/60">
-              Leave empty for a top-level category
+              {d.categories.form.parentHint}
             </span>
             <Combobox
               options={allCategories.map((cat) => ({
@@ -291,8 +294,8 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
               value={parentId !== null && parentId !== undefined ? String(parentId) : ""}
               onChange={(v) => setParentId(v ? Number(v) : null)}
               nullable
-              nullLabel="— None (top-level) —"
-              placeholder="— None (top-level) —"
+              nullLabel={d.categories.form.noParent}
+              placeholder={d.categories.form.noParent}
             />
           </label>
         </div>
@@ -311,17 +314,17 @@ export function CategoryForm({ mode, categoryId, initial }: CategoryFormProps) {
           className="rounded-full bg-[#1d1d1f] text-white px-8 py-3 font-medium hover:bg-black/85 disabled:opacity-50 transition-colors"
         >
           {loading
-            ? "Saving…"
+            ? d.common.saving
             : mode === "create"
-              ? "Create category"
-              : "Save changes"}
+              ? d.categories.form.createBtn
+              : d.common.saveChanges}
         </button>
         <button
           type="button"
           onClick={() => router.push(adminListPath)}
           className="rounded-full border border-black/15 px-8 py-3 font-medium hover:bg-black/5 transition-colors"
         >
-          Cancel
+          {d.common.cancel}
         </button>
       </div>
     </form>

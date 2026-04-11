@@ -7,13 +7,22 @@ import { adminFetch } from "@/api/admin-api";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EditorJSInstance = any;
 
+interface BlockEditorDict {
+  saving: string;
+  saveBtn: string;
+  saved: string;
+  loading: string;
+  saveFailed: string;
+}
+
 interface BlockEditorProps {
   productId: number;
   locale: string;
   initialBlocks: Record<string, unknown>[];
+  dict: BlockEditorDict;
 }
 
-export function BlockEditor({ productId, locale, initialBlocks }: BlockEditorProps) {
+export function BlockEditor({ productId, locale, initialBlocks, dict }: BlockEditorProps) {
   const holderRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorJSInstance>(null);
   const [saving, setSaving] = useState(false);
@@ -129,7 +138,7 @@ export function BlockEditor({ productId, locale, initialBlocks }: BlockEditorPro
     if (res.ok) {
       setSaved(true);
     } else {
-      alert("Save failed");
+      alert(dict.saveFailed);
     }
   }
 
@@ -146,19 +155,19 @@ export function BlockEditor({ productId, locale, initialBlocks }: BlockEditorPro
 
       {!ready && (
         <p className="text-black/30 text-sm animate-pulse py-4 text-center">
-          Loading editor…
+          {dict.loading}
         </p>
       )}
 
       <div className="flex items-center justify-end gap-3 pt-2">
-        {saved && <span className="text-sm text-green-600">Saved</span>}
+        {saved && <span className="text-sm text-green-600">{dict.saved}</span>}
         <button
           type="button"
           onClick={save}
           disabled={saving || !ready}
           className="rounded-full bg-[#1d1d1f] text-white text-sm px-6 py-2.5 font-medium hover:bg-black/85 disabled:opacity-60 cursor-pointer transition-colors"
         >
-          {saving ? "Saving…" : "Save content"}
+          {saving ? dict.saving : dict.saveBtn}
         </button>
       </div>
     </div>

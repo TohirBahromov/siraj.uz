@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import { Upload } from "lucide-react";
 
 const LOCALES = [
@@ -55,6 +56,8 @@ export function StaffForm({
 }) {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
+  const dict = useDict();
+  const d = dict.admin;
 
   const adminListPath = useMemo(() => {
     const lang = params.lang;
@@ -111,7 +114,7 @@ export function StaffForm({
     setError(null);
 
     if (!imageUrl) {
-      setError("Please upload a photo first.");
+      setError(d.staff.form.uploadFirst);
       return;
     }
 
@@ -181,23 +184,23 @@ export function StaffForm({
 
         <div className="p-6 space-y-5">
           <label className="flex flex-col gap-1 text-sm">
-            <span className="text-black/60">Name</span>
+            <span className="text-black/60">{d.staff.form.nameLabel}</span>
             <input
               required
               value={translations[activeTab].name}
               onChange={(e) => setTr(activeTab, "name", e.target.value)}
-              placeholder="Full name"
+              placeholder={d.staff.form.namePlaceholder}
               className="rounded-xl border border-black/15 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400"
             />
           </label>
 
           <label className="flex flex-col gap-1 text-sm">
-            <span className="text-black/60">Position</span>
+            <span className="text-black/60">{d.staff.form.positionLabel}</span>
             <input
               required
               value={translations[activeTab].position}
               onChange={(e) => setTr(activeTab, "position", e.target.value)}
-              placeholder="e.g. Chief Executive Officer"
+              placeholder={d.staff.form.positionPlaceholder}
               className="rounded-xl border border-black/15 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400"
             />
           </label>
@@ -207,7 +210,7 @@ export function StaffForm({
       {/* ── Photo upload ── */}
       <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
         <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold">
-          Photo
+          {d.staff.form.photoTitle}
         </div>
         <div className="p-6 flex items-start gap-6">
           {/* Preview */}
@@ -229,7 +232,7 @@ export function StaffForm({
           <div className="flex flex-col gap-3 pt-1">
             <label className="cursor-pointer inline-flex items-center gap-2 rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm font-medium hover:bg-black/5 transition-colors">
               <Upload size={16} />
-              {uploading ? "Uploading…" : "Choose photo"}
+              {uploading ? d.common.uploading : d.staff.form.choosePhoto}
               <input
                 type="file"
                 accept="image/*"
@@ -246,7 +249,7 @@ export function StaffForm({
               </p>
             )}
             <p className="text-xs text-black/30">
-              Recommended: portrait photo, min 400×500px
+              {d.staff.form.photoHint}
             </p>
           </div>
         </div>
@@ -255,12 +258,12 @@ export function StaffForm({
       {/* ── Display order ── */}
       <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
         <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold">
-          Display Order
+          {d.staff.form.displayOrderTitle}
         </div>
         <div className="p-6">
           <label className="flex flex-col gap-1 text-sm">
             <span className="text-black/60">
-              Order index (lower = shown first)
+              {d.staff.form.orderHint}
             </span>
             <input
               type="number"
@@ -286,17 +289,17 @@ export function StaffForm({
           className="rounded-full bg-[#1d1d1f] text-white px-8 py-3 font-medium hover:bg-black/85 disabled:opacity-50 transition-colors"
         >
           {loading
-            ? "Saving…"
+            ? d.common.saving
             : mode === "create"
-              ? "Create staff member"
-              : "Save changes"}
+              ? d.staff.form.createBtn
+              : d.common.saveChanges}
         </button>
         <button
           type="button"
           onClick={() => router.push(adminListPath)}
           className="rounded-full border border-black/15 px-8 py-3 font-medium hover:bg-black/5 transition-colors"
         >
-          Cancel
+          {d.common.cancel}
         </button>
       </div>
     </form>

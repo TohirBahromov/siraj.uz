@@ -4,11 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { adminFetch } from "@/api/admin-api";
+import { useDict } from "@/i18n/context";
 import type { AdminProduct } from "@/types/product";
 
 export default function EditProductPage() {
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const router = useRouter();
+  const dict = useDict();
+  const d = dict.admin;
   const listHref =
     typeof lang === "string" ? `/${lang}/admin/products` : "/en/admin/products";
   const [product, setProduct] = useState<AdminProduct | null>(null);
@@ -19,12 +22,12 @@ export default function EditProductPage() {
     setError(null);
     const res = await adminFetch(`/admin/products/${id}`);
     if (!res.ok) {
-      setError("Product not found");
+      setError(d.products.notFound);
       setProduct(null);
       return;
     }
     setProduct((await res.json()) as AdminProduct);
-  }, [id]);
+  }, [id, d.products.notFound]);
 
   useEffect(() => {
     load();
@@ -39,20 +42,20 @@ export default function EditProductPage() {
           onClick={() => router.push(listHref)}
           className="text-sm underline"
         >
-          Back to list
+          {d.common.backToList}
         </button>
       </div>
     );
   }
 
   if (!product) {
-    return <p className="text-black/50 text-sm animate-pulse">Loading…</p>;
+    return <p className="text-black/50 text-sm animate-pulse">{d.common.loading}</p>;
   }
 
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight mb-8">
-        Edit · {product.translations[0]?.title || product.id}
+        {d.common.editPrefix} {product.translations[0]?.title || product.id}
       </h1>
       <ProductForm mode="edit" productId={product.id} initial={product} />
     </div>

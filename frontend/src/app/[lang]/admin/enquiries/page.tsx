@@ -67,9 +67,10 @@ export default function page() {
         <div className="text-sm text-black/40">Jami: {data.meta.total}</div>
       </div>
 
-      <div className="rounded-xl border border-black/10 bg-white overflow-auto shadow-sm">
-        <table className="w-full text-sm text-left">
-          <thead className="bg-black/[0.02] text-black/50 font-medium border-b border-black/10">
+      <div className="rounded-xl border border-black/10 bg-white overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-max text-sm text-left">
+          <thead className="bg-black/2 text-black/50 font-medium border-b border-black/10">
             <tr>
               <th className="px-4 py-3">F.I.SH</th>
               <th className="px-4 py-3">Telefon</th>
@@ -89,7 +90,7 @@ export default function page() {
               data.items.map((m) => (
                 <tr
                   key={m.id}
-                  className={`hover:bg-black/[0.01] transition-colors ${!m.isRead ? "bg-indigo-50/30" : ""}`}
+                  className={`hover:bg-black/1 transition-colors ${!m.isRead ? "bg-indigo-50/30" : ""}`}
                 >
                   <td className="px-4 py-4 font-medium">
                     <div className="flex items-center gap-2">
@@ -123,9 +124,10 @@ export default function page() {
             )}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination Footer */}
-        <div className="px-4 py-4 border-t border-black/10 flex items-center justify-between bg-black/[0.01]">
+        <div className="px-4 py-4 border-t border-black/10 flex items-center justify-between bg-black/1">
           <button
             disabled={currentPage <= 1}
             onClick={() => handlePageChange(currentPage - 1)}

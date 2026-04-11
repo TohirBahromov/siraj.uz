@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { PatternFormat } from "react-number-format";
+import { useDict } from "@/i18n/context";
 
 interface Props {
   productId: number;
@@ -19,6 +20,8 @@ export function ProductOrderDialog({
   btn2BgColor,
   onClose,
 }: Props) {
+  const dict = useDict();
+  const d = dict.orderDialog;
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -64,7 +67,7 @@ export function ProductOrderDialog({
       if (!res.ok) throw new Error("Request failed");
       setSuccess(true);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(d.error);
     } finally {
       setLoading(false);
     }
@@ -85,7 +88,7 @@ export function ProductOrderDialog({
         <div className="flex items-start justify-between px-6 pt-6 pb-4">
           <div>
             <p className="text-xs font-semibold tracking-widest uppercase text-black/40 mb-1">
-              Buy
+              {d.title}
             </p>
             <h2 className="text-xl font-bold text-black leading-snug">
               {productTitle}
@@ -117,35 +120,35 @@ export function ProductOrderDialog({
               </svg>
             </div>
             <p className="text-base font-semibold text-black mb-1">
-              Request received!
+              {d.success}
             </p>
-            <p className="text-sm text-black/50">We'll contact you shortly.</p>
+            <p className="text-sm text-black/50">{d.successText}</p>
             <button
               type="button"
               onClick={onClose}
               className="mt-6 rounded-full bg-black text-white text-sm font-medium px-8 py-2.5 hover:bg-black/85 transition-colors cursor-pointer"
             >
-              Close
+              {d.close}
             </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
             {/* Name */}
             <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-medium text-black/70">Full Name</span>
+              <span className="font-medium text-black/70">{d.nameLabel}</span>
               <input
                 ref={nameRef}
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
+                placeholder={d.namePlaceholder}
                 className="rounded-2xl border border-black/15 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black/20 transition"
               />
             </label>
 
             {/* Phone */}
             <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-medium text-black/70">Phone Number</span>
+              <span className="font-medium text-black/70">{d.phoneLabel}</span>
               <PatternFormat
                 type="tel"
                 format="+998 ## ###-##-##"
@@ -170,7 +173,7 @@ export function ProductOrderDialog({
               style={{ color: btn2Color, backgroundColor: btn2BgColor }}
               className="w-full rounded-full py-3.5 text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer mt-1"
             >
-              {loading ? "Sending…" : "Send Request"}
+              {loading ? d.sendLoading : d.sendBtn}
             </button>
           </form>
         )}

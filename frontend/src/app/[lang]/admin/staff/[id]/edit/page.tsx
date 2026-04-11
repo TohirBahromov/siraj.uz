@@ -3,11 +3,14 @@
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
+import { useDict } from "@/i18n/context";
 import { StaffForm, type AdminStaffMember } from "@/components/admin/StaffForm";
 
 export default function EditStaffMemberPage() {
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const router = useRouter();
+  const dict = useDict();
+  const d = dict.admin;
   const listHref =
     typeof lang === "string" ? `/${lang}/admin/staff` : "/en/admin/staff";
 
@@ -19,11 +22,11 @@ export default function EditStaffMemberPage() {
     setError(null);
     const res = await adminFetch(`/admin/staff-members/${id}`);
     if (!res.ok) {
-      setError("Staff member not found");
+      setError(d.staff.notFound);
       return;
     }
     setMember((await res.json()) as AdminStaffMember);
-  }, [id]);
+  }, [id, d.staff.notFound]);
 
   useEffect(() => {
     load();
@@ -38,14 +41,14 @@ export default function EditStaffMemberPage() {
           onClick={() => router.push(listHref)}
           className="text-sm underline"
         >
-          Back to list
+          {d.common.backToList}
         </button>
       </div>
     );
   }
 
   if (!member) {
-    return <p className="text-black/50 text-sm animate-pulse">Loading…</p>;
+    return <p className="text-black/50 text-sm animate-pulse">{d.common.loading}</p>;
   }
 
   const displayName =
@@ -56,7 +59,7 @@ export default function EditStaffMemberPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight mb-8">
-        Edit · {displayName}
+        {d.common.editPrefix} {displayName}
       </h1>
       <StaffForm mode="edit" staffId={member.id} initial={member} />
     </div>

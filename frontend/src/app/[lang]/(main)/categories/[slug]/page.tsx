@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { hasLocale, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import {
   fetchCategoryBySlug,
   fetchCategoryProductsPage,
@@ -25,8 +26,12 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const { products: initialProducts, nextCursor: initialNextCursor } =
-    await fetchCategoryProductsPage(slug, locale);
+  const [{ products: initialProducts, nextCursor: initialNextCursor }, dict] =
+    await Promise.all([
+      fetchCategoryProductsPage(slug, locale),
+      getDictionary(locale),
+    ]);
+  const d = dict.categories;
 
   return (
     <main className="min-h-screen bg-[#fbfbfd]">
@@ -37,7 +42,7 @@ export default async function CategoryPage({
             href={`/${lang}/categories`}
             className="hover:text-black transition-colors"
           >
-            Categories
+            {d.breadcrumb}
           </Link>
           <span>/</span>
           <span className="text-[#1d1d1f] font-medium">{category.name}</span>
@@ -61,7 +66,7 @@ export default async function CategoryPage({
             </h1>
             {initialProducts.length > 0 && (
               <p className="mt-2 text-black/40">
-                {initialProducts.length}+ products
+                {initialProducts.length}+ {d.productsCount}
               </p>
             )}
           </div>
@@ -74,6 +79,8 @@ export default async function CategoryPage({
           categorySlug={slug}
           lang={lang}
           locale={locale}
+          noProductsText={d.noProducts}
+          loadMoreText={d.loadMore}
         />
       </div>
     </main>

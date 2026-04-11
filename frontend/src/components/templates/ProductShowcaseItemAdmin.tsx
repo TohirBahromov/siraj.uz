@@ -202,53 +202,23 @@ export default function ProductShowcaseItemAdmin({
           <div className="flex flex-col items-center gap-1">
             <Button
               variant="primary"
-              href={`/products/${productSlug}`}
               size="lg"
-              style={{ color: btn1Color, backgroundColor: btn1BgColor }}
               className="border-black"
+              type="button"
             >
               {dict.showcase.learnMore}
             </Button>
-            <div className="flex items-center gap-1">
-              <Pipetter
-                id="showcase-btn1txt"
-                color={btn1Color}
-                setColor={setBtn1Color}
-                label="Button 1 text color"
-              />
-              <Pipetter
-                id="showcase-btn1bg"
-                color={btn1BgColor}
-                setColor={setBtn1BgColor}
-                label="Button 1 background"
-              />
-            </div>
           </div>
           {/* btn 2 */}
           <div className="flex flex-col items-center gap-1">
             <Button
               variant="primary"
-              href="/store"
               size="lg"
-              style={{ color: btn2Color, backgroundColor: btn2BgColor }}
               className="border-black"
+              type="button"
             >
               {dict.showcase.buy}
             </Button>
-            <div className="flex items-center gap-1">
-              <Pipetter
-                id="showcase-btn2txt"
-                color={btn2Color}
-                setColor={setBtn2Color}
-                label="Button 2 text color"
-              />
-              <Pipetter
-                id="showcase-btn2bg"
-                color={btn2BgColor}
-                setColor={setBtn2BgColor}
-                label="Button 2 background"
-              />
-            </div>
           </div>
         </div>
       </div>

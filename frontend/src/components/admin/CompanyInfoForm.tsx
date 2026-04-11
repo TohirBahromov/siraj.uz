@@ -7,6 +7,7 @@ import {
 } from "@/api/company-api";
 import { WEEKDAY_KEYS, WEEKDAY_LABELS } from "@/constants/weekdays";
 import { Locale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import { useParams } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { PatternFormat } from "react-number-format";
@@ -54,6 +55,8 @@ export default function CompanyInfoForm({
 }) {
   const { lang } = useParams<{ lang: Locale }>();
   const LABELS = WEEKDAY_LABELS[lang];
+  const dict = useDict();
+  const d = dict.admin.company;
 
   const [saved, setSaved] = useState<UpdateCompanyInfoDto>(buildFormState);
   const [form, setForm] = useState<UpdateCompanyInfoDto>(buildFormState);
@@ -149,17 +152,17 @@ export default function CompanyInfoForm({
   const validate = (): Record<string, string> => {
     const errs: Record<string, string> = {};
     if (form.latitude == null || form.longitude == null)
-      errs.location = "Pick a location on the map.";
-    if (!form.address.trim()) errs.address = "Address is required.";
+      errs.location = d.errors.location;
+    if (!form.address.trim()) errs.address = d.errors.address;
     const rawPhone = form.phoneNumber.replace(/\D/g, "");
-    if (rawPhone.length < 12) errs.phoneNumber = "Enter a valid phone number.";
-    if (!form.email.trim()) errs.email = "Email is required.";
+    if (rawPhone.length < 12) errs.phoneNumber = d.errors.phone;
+    if (!form.email.trim()) errs.email = d.errors.emailRequired;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      errs.email = "Enter a valid email.";
+      errs.email = d.errors.emailInvalid;
     if (form.endDay <= form.startDay)
-      errs.endDay = "End day must be after start day.";
+      errs.endDay = d.errors.endDay;
     if (form.endAt <= form.startAt)
-      errs.endTime = "End time must be after start time.";
+      errs.endTime = d.errors.endTime;
     return errs;
   };
 
@@ -211,16 +214,16 @@ export default function CompanyInfoForm({
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Company</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{d.title}</h1>
       </div>
       <div>
         <div className="space-y-6">
-          <Section num="01" title="Location">
-            <Field label="Address" error={errors.address}>
+          <Section num="01" title={d.locationTitle}>
+            <Field label={d.address} error={errors.address}>
               <input
                 type="text"
                 className={inputCls("address")}
-                placeholder="e.g. Yunusobod, Anorzor, 99"
+                placeholder={d.addressPlaceholder}
                 value={form.address}
                 onChange={(e) => setField("address", e.target.value)}
               />
@@ -228,14 +231,14 @@ export default function CompanyInfoForm({
 
             <div className="mt-3">
               <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">
-                Pin on map
+                {d.pinMap}
                 <span className="ml-1 font-normal normal-case text-stone-400">
-                  — click to place marker
+                  {d.pinMapHint}
                 </span>
               </label>
               {mapsError ? (
                 <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
-                  <span>⚠</span> Yandex Maps failed to load. Check your API key.
+                  {d.mapsError}
                 </div>
               ) : !mapsReady ? (
                 <div className="w-full h-64 rounded-xl bg-stone-100 animate-pulse" />
@@ -252,14 +255,14 @@ export default function CompanyInfoForm({
             </div>
 
             <div className="flex gap-3 mt-3">
-              <CoordBadge label="Latitude" value={form.latitude} />
-              <CoordBadge label="Longitude" value={form.longitude} />
+              <CoordBadge label={d.latitude} value={form.latitude} />
+              <CoordBadge label={d.longitude} value={form.longitude} />
             </div>
           </Section>
 
           {/* ── 02 Contact ── */}
-          <Section num="02" title="Contact">
-            <Field label="Phone number" error={errors.phoneNumber}>
+          <Section num="02" title={d.contactTitle}>
+            <Field label={d.phone} error={errors.phoneNumber}>
               <PatternFormat
                 format="+998 ## ###-##-##"
                 mask="_"
@@ -273,11 +276,11 @@ export default function CompanyInfoForm({
               />
             </Field>
 
-            <Field label="Email address" error={errors.email}>
+            <Field label={d.email} error={errors.email}>
               <input
                 type="email"
                 className={inputCls("email")}
-                placeholder="hello@company.com"
+                placeholder={d.emailPlaceholder}
                 value={form.email}
                 onChange={(e) => setField("email", e.target.value)}
               />
@@ -285,9 +288,9 @@ export default function CompanyInfoForm({
           </Section>
 
           {/* ── 03 Working Hours ── */}
-          <Section num="03" title="Working Hours">
+          <Section num="03" title={d.workingHoursTitle}>
             <div className="grid grid-cols-2 gap-4">
-              <Field label="From day" error={undefined}>
+              <Field label={d.fromDay} error={undefined}>
                 <select
                   className={selectCls("startDay")}
                   value={form.startDay}
@@ -299,7 +302,7 @@ export default function CompanyInfoForm({
                 </select>
               </Field>
 
-              <Field label="To day" error={errors.endDay}>
+              <Field label={d.toDay} error={errors.endDay}>
                 <select
                   className={selectCls("endDay")}
                   value={form.endDay}
@@ -316,7 +319,7 @@ export default function CompanyInfoForm({
                 </select>
               </Field>
 
-              <Field label="Opens at" error={undefined}>
+              <Field label={d.opensAt} error={undefined}>
                 <input
                   type="time"
                   className={inputCls("startTime")}
@@ -325,7 +328,7 @@ export default function CompanyInfoForm({
                 />
               </Field>
 
-              <Field label="Closes at" error={errors.endTime}>
+              <Field label={d.closesAt} error={errors.endTime}>
                 <input
                   type="time"
                   className={inputCls("endTime")}
@@ -350,7 +353,7 @@ export default function CompanyInfoForm({
           {/* ── Submit ── */}
           <div className="flex items-center justify-between pt-2 pb-10">
             {!dirty ? (
-              <p className="text-xs text-stone-400">No changes to save.</p>
+              <p className="text-xs text-stone-400">{d.noChanges}</p>
             ) : (
               <span />
             )}
@@ -385,10 +388,10 @@ export default function CompanyInfoForm({
                       d="M4 12a8 8 0 018-8v8H4z"
                     />
                   </svg>
-                  Saving…
+                  {dict.admin.common.saving}
                 </span>
               ) : (
-                "Save company info"
+                d.saveBtn
               )}
             </button>
           </div>

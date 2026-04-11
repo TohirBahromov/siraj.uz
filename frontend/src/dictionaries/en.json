@@ -82,6 +82,13 @@
       "newTitle": "New product",
       "notFound": "Product not found",
       "contentLabel": "Product content",
+      "contentTip": "Each tab stores content for that language independently. Write in one language, then use \"Copy from\" to duplicate blocks — and translate as needed.",
+      "contentCopyFrom": "Copy from",
+      "editorSaving": "Saving…",
+      "editorSaveBtn": "Save content",
+      "editorSaved": "Saved",
+      "editorLoading": "Loading editor…",
+      "editorSaveFailed": "Save failed. Please try again.",
       "form": {
         "titleLabel": "Title",
         "descLabel": "Description",

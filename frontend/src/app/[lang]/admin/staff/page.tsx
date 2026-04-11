@@ -124,7 +124,8 @@ export default function AdminStaffPage() {
       )}
 
       <div className="rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm">
-        <table className="w-full text-sm text-left">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-max text-sm text-left">
           <thead className="bg-black/3 text-black/50 font-medium border-b border-black/10">
             <tr>
               <th className="px-4 py-3 w-16">{dict.admin.orders.colId}</th>
@@ -151,7 +152,7 @@ export default function AdminStaffPage() {
                 return (
                   <tr
                     key={member.id}
-                    className="hover:bg-black/[0.015] transition-colors"
+                    className="hover:bg-black/1.5 transition-colors"
                   >
                     <td className="px-4 py-3 text-black/30 tabular-nums">
                       {member.id}
@@ -196,6 +197,7 @@ export default function AdminStaffPage() {
             )}
           </tbody>
         </table>
+        </div>
 
         {data.meta?.lastPage > 1 && (
           <div className="px-4 py-4 border-t border-black/10 flex items-center justify-between bg-black/1">

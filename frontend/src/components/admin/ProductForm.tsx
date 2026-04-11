@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import type { AdminProduct, HomeProduct } from "@/types/product";
 import type { AdminCategory } from "@/types/category";
 import ProductGridItemAdmin from "../templates/ProductGridItemAdmin";
@@ -72,6 +73,8 @@ export function ProductForm({
 }) {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
+  const dict = useDict();
+  const d = dict.admin;
 
   const adminListPath = useMemo(() => {
     const lang = params.lang;
@@ -288,7 +291,7 @@ export function ProductForm({
 
           <div className="p-6 space-y-5">
             <label className="flex flex-col gap-1 text-sm">
-              <span className="text-black/60">Title</span>
+              <span className="text-black/60">{d.products.form.titleLabel}</span>
               <input
                 required
                 value={translations[activeTab].title}
@@ -298,7 +301,7 @@ export function ProductForm({
             </label>
 
             <label className="flex flex-col gap-1 text-sm">
-              <span className="text-black/60">Description</span>
+              <span className="text-black/60">{d.products.form.descLabel}</span>
               <textarea
                 required
                 rows={3}
@@ -313,7 +316,7 @@ export function ProductForm({
         {/* CATEGORIES — leaf only (no children) */}
         {allCategories.length > 0 && (
           <div className="rounded-2xl bg-white border border-black/10 p-6 space-y-3">
-            <p className="text-sm font-medium">Categories</p>
+            <p className="text-sm font-medium">{d.products.form.categoriesLabel}</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {allCategories.filter((cat) => !cat.children?.length).map((cat) => {
                 const label =
@@ -369,15 +372,15 @@ export function ProductForm({
         <div className="rounded-3xl border border-black/10 overflow-hidden bg-white shadow-sm">
           <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold flex items-center justify-between">
             <span>
-              Live Preview{" "}
+              {d.products.form.preview}{" "}
               <span className="text-black/40 font-normal">
-                — hover to change image · click pipette icons to change colors
+                {d.products.form.previewHint}
               </span>
             </span>
             <Combobox
               options={[
-                { value: "SHOWCASE", label: "Showcase" },
-                { value: "GRID", label: "Grid" },
+                { value: "SHOWCASE", label: d.products.form.showcase },
+                { value: "GRID", label: d.products.form.grid },
               ]}
               value={placement}
               onChange={(v) => setPlacement(v as "SHOWCASE" | "GRID")}
@@ -409,8 +412,7 @@ export function ProductForm({
 
         {!imgUrl && !uploading && (
           <p className="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-            ⚠ No image uploaded yet — hover the preview and click the upload
-            icon to add one.
+            {d.products.form.noImageWarning}
           </p>
         )}
 
@@ -421,17 +423,17 @@ export function ProductForm({
             className="rounded-full bg-[#1d1d1f] text-white px-8 py-3 font-medium hover:bg-black/85 disabled:opacity-50"
           >
             {loading
-              ? "Saving…"
+              ? d.common.saving
               : mode === "create"
-                ? "Create"
-                : "Save changes"}
+                ? d.common.create
+                : d.common.saveChanges}
           </button>
           <button
             type="button"
             onClick={() => router.push(adminListPath)}
             className="rounded-full border border-black/15 px-8 py-3 font-medium hover:bg-black/5"
           >
-            Cancel
+            {d.common.cancel}
           </button>
         </div>
       </form>

@@ -3,12 +3,15 @@
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { HeroSlideForm } from "@/components/admin/HeroSlideForm";
+import { useDict } from "@/i18n/context";
 import type { HeroSlide } from "@/types/hero-slide";
 import { adminFetch } from "@/api/admin-api";
 
 export default function EditHeroSlidePage() {
   const { id, lang } = useParams<{ id: string; lang: string }>();
   const router = useRouter();
+  const dict = useDict();
+  const d = dict.admin;
   const listHref =
     typeof lang === "string" ? `/${lang}/admin/hero` : "/en/admin/hero";
   const [slide, setSlide] = useState<HeroSlide | null>(null);
@@ -19,12 +22,12 @@ export default function EditHeroSlidePage() {
     setError(null);
     const res = await adminFetch(`/admin/hero-slides/${id}`);
     if (!res.ok) {
-      setError("Hero slide not found");
+      setError(d.heroSlides.notFound);
       setSlide(null);
       return;
     }
     setSlide((await res.json()) as HeroSlide);
-  }, [id]);
+  }, [id, d.heroSlides.notFound]);
 
   useEffect(() => {
     load();
@@ -39,7 +42,7 @@ export default function EditHeroSlidePage() {
           onClick={() => router.push(listHref)}
           className="text-sm underline"
         >
-          Back to list
+          {d.common.backToList}
         </button>
       </div>
     );
@@ -48,7 +51,7 @@ export default function EditHeroSlidePage() {
   if (!slide) {
     return (
       <p className="text-black/50 text-sm animate-pulse">
-        Loading hero slide data…
+        {d.heroSlides.loadingData}
       </p>
     );
   }
@@ -56,9 +59,8 @@ export default function EditHeroSlidePage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight mb-8">
-        Edit Slide ·{" "}
-        {slide.translations.find((t) => t.locale === "en")?.headline ||
-          slide.id}
+        {d.heroSlides.editTitle}{" "}
+        {slide.translations.find((t) => t.locale === "en")?.headline || slide.id}
       </h1>
       <HeroSlideForm
         mode="edit"

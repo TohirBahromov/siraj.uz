@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
 import { hasLocale } from "@/i18n/config";
+import { useDict } from "@/i18n/context";
 import type { HeroSlide, PublicHeroSlide } from "@/types/hero-slide";
 import HeroSlidePreviewAdmin from "../templates/HeroSlidePreviewAdmin";
 
@@ -47,6 +48,8 @@ export function HeroSlideForm({
 }) {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
+  const dict = useDict();
+  const d = dict.admin;
 
   const adminListPath = useMemo(() => {
     const lang = params.lang;
@@ -182,7 +185,7 @@ export function HeroSlideForm({
 
           <div className="p-6 space-y-4">
             <label className="flex flex-col gap-1 text-sm">
-              <span className="text-black/60">Eyebrow</span>
+              <span className="text-black/60">{d.heroSlides.form.eyebrow}</span>
               <input
                 required
                 value={translations[activeTab].eyebrow}
@@ -192,7 +195,7 @@ export function HeroSlideForm({
             </label>
 
             <label className="flex flex-col gap-1 text-sm">
-              <span className="text-black/60">Headline</span>
+              <span className="text-black/60">{d.heroSlides.form.headline}</span>
               <textarea
                 required
                 rows={2}
@@ -203,7 +206,7 @@ export function HeroSlideForm({
             </label>
 
             <label className="flex flex-col gap-1 text-sm">
-              <span className="text-black/60">Subline</span>
+              <span className="text-black/60">{d.heroSlides.form.subline}</span>
               <textarea
                 required
                 rows={2}
@@ -224,10 +227,9 @@ export function HeroSlideForm({
         {/* LIVE PREVIEW — video upload + color pipettes */}
         <div className="rounded-3xl border border-black/10 overflow-hidden bg-white shadow-sm">
           <div className="bg-[#f5f5f7] px-6 py-4 border-b border-black/10 text-sm font-semibold">
-            Live Preview{" "}
+            {d.heroSlides.form.preview}{" "}
             <span className="text-black/40 font-normal">
-              — click "Change Video" to upload · click pipette icons to change
-              text colors
+              {d.heroSlides.form.previewHint}
             </span>
           </div>
           <HeroSlidePreviewAdmin
@@ -245,7 +247,7 @@ export function HeroSlideForm({
 
         {!videoSrc && !uploading && (
           <p className="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-            ⚠ No video uploaded yet — click "Change Video" in the preview to add one.
+            {d.heroSlides.form.noVideoWarning}
           </p>
         )}
 
@@ -255,14 +257,14 @@ export function HeroSlideForm({
             disabled={loading}
             className="rounded-full bg-[#1d1d1f] text-white px-8 py-3 font-medium hover:bg-black/85 disabled:opacity-50"
           >
-            {loading ? "Saving…" : mode === "create" ? "Create" : "Save changes"}
+            {loading ? d.common.saving : mode === "create" ? d.common.create : d.common.saveChanges}
           </button>
           <button
             type="button"
             onClick={() => router.push(adminListPath)}
             className="rounded-full border border-black/15 px-8 py-3 font-medium hover:bg-black/5"
           >
-            Cancel
+            {d.common.cancel}
           </button>
         </div>
       </form>

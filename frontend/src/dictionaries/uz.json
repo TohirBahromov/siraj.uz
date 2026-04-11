@@ -82,6 +82,13 @@
       "newTitle": "Yangi mahsulot",
       "notFound": "Mahsulot topilmadi",
       "contentLabel": "Mahsulot matni",
+      "contentTip": "Har bir til alohida kontent saqlaydi. Bir tilda yozing, keyin \"Ko'chirish\" orqali boshqa tillarga nusxalang va tarjima qiling.",
+      "contentCopyFrom": "Ko'chirish:",
+      "editorSaving": "Saqlanmoqda…",
+      "editorSaveBtn": "Kontentni saqlash",
+      "editorSaved": "Saqlandi",
+      "editorLoading": "Muharrir yuklanmoqda…",
+      "editorSaveFailed": "Saqlashda xatolik. Qayta urinib ko'ring.",
       "form": {
         "titleLabel": "Sarlavha",
         "descLabel": "Tavsif",
