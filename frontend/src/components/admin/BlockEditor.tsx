@@ -55,9 +55,10 @@ export function BlockEditor({ productId, locale, initialBlocks, dict }: BlockEdi
 
       const editor = new EditorJS({
         holder: holderRef.current,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data:
           initialBlocks.length > 0
-            ? { blocks: initialBlocks }
+            ? ({ blocks: initialBlocks } as any)
             : undefined,
         placeholder: "Start writing your product content…",
         tools: {
