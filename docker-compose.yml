@@ -49,6 +49,7 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
         NEXT_PUBLIC_YMAPS_API_KEY: ${NEXT_PUBLIC_YMAPS_API_KEY:-}
+        BACKEND_URL: http://backend:4000
     container_name: siraj_frontend
     restart: unless-stopped
     environment:
