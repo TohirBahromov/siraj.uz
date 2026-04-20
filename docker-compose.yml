@@ -53,6 +53,7 @@ services:
     restart: unless-stopped
     environment:
       BACKEND_URL: http://backend:4000
+      API_URL: http://backend:4000/api
     depends_on:
       - backend
 
