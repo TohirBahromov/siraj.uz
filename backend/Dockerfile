@@ -1,7 +1,7 @@
 FROM node:22-alpine AS builder
 WORKDIR /app/backend
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --fetch-retries=5 --fetch-retry-mintimeout=10000
 COPY . .
 RUN npx prisma generate
 RUN npm run build
