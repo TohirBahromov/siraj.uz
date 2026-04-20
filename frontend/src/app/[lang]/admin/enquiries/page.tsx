@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { adminFetch } from "@/api/admin-api";
@@ -20,7 +21,7 @@ interface PaginatedResponse {
   meta: { total: number; page: number; lastPage: number };
 }
 
-export default function page() {
+function EnquiriesContent() {
   const params = useParams<{ lang: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -148,5 +149,13 @@ export default function page() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <EnquiriesContent />
+    </Suspense>
   );
 }

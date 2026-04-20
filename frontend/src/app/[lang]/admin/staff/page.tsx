@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -29,7 +30,7 @@ interface PaginatedResponse {
 
 const LIMIT = 15;
 
-export default function AdminStaffPage() {
+function AdminStaffContent() {
   const params = useParams<{ lang: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -222,5 +223,13 @@ export default function AdminStaffPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AdminStaffPage() {
+  return (
+    <Suspense>
+      <AdminStaffContent />
+    </Suspense>
   );
 }
