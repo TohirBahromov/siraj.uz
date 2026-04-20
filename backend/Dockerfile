@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm ci --fetch-retries=5 --fetch-retry-mintimeout=10000
 COPY . .
 RUN npx prisma generate
-RUN npm run build && ls dist/main.js
+RUN npm run build && ls dist/src/main.js
 
 FROM node:22-alpine
 WORKDIR /app/backend
@@ -15,4 +15,4 @@ COPY --from=builder /app/backend/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/backend/prisma/seed.cjs ./prisma/seed.cjs
 COPY package*.json ./
 EXPOSE 4000
-CMD ["sh", "-c", "npx prisma migrate deploy && ([ -f /app/uploads/.seeded ] || (node prisma/seed.cjs && touch /app/uploads/.seeded)) && node dist/main"]
+CMD ["sh", "-c", "npx prisma migrate deploy && ([ -f /app/uploads/.seeded ] || (node prisma/seed.cjs && touch /app/uploads/.seeded)) && node dist/src/main"]
