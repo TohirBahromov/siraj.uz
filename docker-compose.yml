@@ -31,13 +31,12 @@ services:
     build: ./backend
     container_name: siraj_backend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD:-root}@mysql:3306/siraj
-      PORT: 4000
       FRONTEND_URL: https://${DOMAIN}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+      PORT: 4000
     volumes:
       - uploads_data:/app/uploads
     depends_on:
